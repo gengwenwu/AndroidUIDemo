@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.logan.android.ui.R
 
 /**
- * desc: Constraint 尺寸约束 <br/>
+ * desc: Constraint 组件尺寸约束 <br/>
  * time: 2020/5/6 2:08 PM <br/>
  * author: Logan <br/>
  * since V 1.0 <br/>
