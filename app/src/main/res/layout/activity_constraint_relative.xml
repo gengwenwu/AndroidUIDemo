@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/tv_tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="相对布局1" />
+
+    <TextView
+        android:id="@+id/tv_tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="相对布局2"
+        app:layout_constraintStart_toEndOf="@id/tv_tv1" />
+
+    <TextView
+        android:id="@+id/tv_tv3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="相对布局3"
+        app:layout_constraintTop_toBottomOf="@id/tv_tv1" />
+
+    <TextView
+        android:id="@+id/tv_tv4"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/holo_blue_light"
+        android:gravity="center"
+        android:text="Hello World！"
+        app:layout_constraintTop_toBottomOf="@id/tv_tv3" />
+
+    <TextView
+        android:id="@+id/tv_tv5"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/holo_red_light"
+        android:text="你好，世界！"
+        app:layout_constraintBaseline_toBaselineOf="@id/tv_tv4"
+        app:layout_constraintStart_toEndOf="@id/tv_tv4"
+        app:layout_constraintTop_toBottomOf="@id/tv_tv3" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
