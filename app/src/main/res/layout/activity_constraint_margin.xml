@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <!-- 必须先设置tv_tv1在ConstraintLayout相对位置后，再设置margin属性才生效。 -->
+    <TextView
+        android:id="@+id/tv_tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:text="必须先约束相对位置，否则margin属性无效。"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 必须先设置tv_tv1在ConstraintLayout相对位置后，再设置margin属性才生效。 -->
+    <TextView
+        android:id="@+id/tv_tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="goneMargin特点"
+        android:textColor="@android:color/holo_red_light"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_tv1"
+        app:layout_constraintLeft_toRightOf="@+id/tv_tv1"
+        app:layout_goneMarginStart="50dp" />
+
+    <Button
+        android:id="@+id/btn_show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="点击我，看goneMargin效果"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_tv2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
