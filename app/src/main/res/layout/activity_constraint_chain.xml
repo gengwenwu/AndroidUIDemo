@@ -11,8 +11,9 @@
         android:id="@+id/tv_row1_tv1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@android:color/holo_green_light"
         android:text="TextView1"
-        app:layout_constraintRight_toLeftOf="@id/tv_row1_tv2"
+        app:layout_constraintRight_toLeftOf="@+id/tv_row1_tv2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,9 +21,9 @@
         android:id="@+id/tv_row1_tv2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
+        android:background="@android:color/holo_blue_light"
         android:text="TextView2"
-        app:layout_constraintLeft_toRightOf="@id/tv_row1_tv1"
+        app:layout_constraintLeft_toRightOf="@+id/tv_row1_tv1"
         app:layout_constraintRight_toLeftOf="tv_row1_tv3"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,12 +31,46 @@
         android:id="@+id/tv_row1_tv3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@android:color/holo_orange_light"
         android:text="TextView3"
-        app:layout_constraintLeft_toRightOf="@id/tv_row1_tv2"
+        app:layout_constraintLeft_toRightOf="@+id/tv_row1_tv2"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- 第二行 -->
+    <TextView
+        android:id="@+id/tv_row2_tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@android:color/holo_green_light"
+        android:text="TextView1"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintRight_toLeftOf="@id/tv_row2_tv2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_row1_tv1" />
+
+    <TextView
+        android:id="@+id/tv_row2_tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@android:color/holo_blue_light"
+        android:text="TextView2"
+        app:layout_constraintLeft_toRightOf="@id/tv_row2_tv1"
+        app:layout_constraintRight_toLeftOf="@+id/tv_row2_tv3"
+        app:layout_constraintTop_toBottomOf="@+id/tv_row1_tv1" />
+
+    <TextView
+        android:id="@+id/tv_row2_tv3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@android:color/holo_orange_light"
+        android:text="TextView3"
+        app:layout_constraintLeft_toRightOf="@id/tv_row2_tv2"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_row1_tv1" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
