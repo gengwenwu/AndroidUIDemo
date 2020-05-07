@@ -36,7 +36,7 @@
         app:layout_constraintStart_toEndOf="@id/tv_tv2"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!--  组 -->
+    <!--  1, 组 group -->
     <androidx.constraintlayout.widget.Group
         android:id="@+id/group"
         android:layout_width="wrap_content"
@@ -47,9 +47,39 @@
         android:id="@+id/btn_show"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="点击我，看效果"
+        android:layout_marginTop="10dp"
+        android:text="点击我，看Group效果"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_tv1" />
+
+    <!--  2,  Placeholder设置 app:content="@+id/tv_tv4", tv_tv4组件位置移动到Placeholder位置  -->
+    <androidx.constraintlayout.widget.Placeholder
+        android:id="@+id/place_holder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_show" />
+
+    <TextView
+        android:id="@+id/tv_tv4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:background="@android:color/holo_red_light"
+        android:text="PlaceHolder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_show" />
+
+    <Button
+        android:id="@+id/btn_show_4_place_holder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="点击我，看place holder效果"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_tv4" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
