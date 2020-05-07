@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.logan.android.ui.R
 
 /**
- * desc: Constraint 角度定位 <br/>
+ * desc: Constraint Barrier <br/>
  * time: 2020/5/7 2:02 PM <br/>
  * author: Logan <br/>
  * since V 1.0 <br/>
@@ -21,5 +21,5 @@ class ConstraintBarrierActivity : AppCompatActivity() {
         //  (2)，app:constraint_referenced_ids：为屏障引用的控件，可设置多个(用“,”隔开)：
 
     }
-    
+
 }
