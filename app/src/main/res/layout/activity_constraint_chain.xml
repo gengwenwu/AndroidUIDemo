@@ -179,4 +179,42 @@
         app:layout_constraintStart_toEndOf="@id/tv_row5_tv2"
         app:layout_constraintTop_toBottomOf="@+id/tv_row4_tv1" />
 
+    <!-- 第六行 chain和weight配合使用，width必须是0dp才有效果 -->
+    <TextView
+        android:id="@+id/tv_row6_tv1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@android:color/holo_green_light"
+        android:text="带有Weight"
+        app:layout_constraintEnd_toStartOf="@id/tv_row6_tv2"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_row5_tv1" />
+
+    <TextView
+        android:id="@+id/tv_row6_tv2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@android:color/holo_blue_light"
+        android:text="带有Weight"
+        app:layout_constraintEnd_toStartOf="@+id/tv_row6_tv3"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/tv_row6_tv1"
+        app:layout_constraintTop_toBottomOf="@+id/tv_row5_tv1" />
+
+    <TextView
+        android:id="@+id/tv_row6_tv3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@android:color/holo_orange_light"
+        android:text="带有Weight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/tv_row6_tv2"
+        app:layout_constraintTop_toBottomOf="@+id/tv_row5_tv1" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
