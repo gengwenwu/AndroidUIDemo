@@ -14,7 +14,7 @@ class ConstraintSizeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_constraint_circle)
+        setContentView(R.layout.activity_constraint_size)
 
         // 控件的尺寸(高宽)可以通过四种不同方式指定：
         // 1，使用指定的尺寸

@@ -36,6 +36,7 @@ class ConstraintOtherActivity : AppCompatActivity() {
         //    在Placeholder中可使用setContent()设置另一个控件的id，使这个控件移动到占位符的位置。
         findViewById<Button>(R.id.btn_show_4_place_holder).setOnClickListener {
             findViewById<Placeholder>(R.id.place_holder).setContentId(R.id.tv_tv4);
+            it.visibility = View.GONE
         }
 
         // 3，Guild line 像辅助线一样，在预览的时候帮助你完成布局（不会显示在界面上）。Guild line的主要属性：

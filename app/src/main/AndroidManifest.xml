@@ -16,6 +16,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- 约束布局 -->
+        <activity android:name=".layout.constraint.ConstraintMainActivity" />
+        <activity android:name=".layout.constraint.ConstraintBarrierActivity" />
+        <activity android:name=".layout.constraint.ConstraintCenterActivity" />
+        <activity android:name=".layout.constraint.ConstraintChainActivity" />
+        <activity android:name=".layout.constraint.ConstraintCircleActivity" />
+        <activity android:name=".layout.constraint.ConstraintMarginActivity" />
+        <activity android:name=".layout.constraint.ConstraintOtherActivity" />
+        <activity android:name=".layout.constraint.ConstraintRelativeActivity" />
+        <activity android:name=".layout.constraint.ConstraintSizeActivity" />
+
+
     </application>
 
 </manifest>

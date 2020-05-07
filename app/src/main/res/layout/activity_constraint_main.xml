@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/btn_barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="屏障"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="居中"
+        app:layout_constraintStart_toEndOf="@id/btn_barrier"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_chain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="chain 链"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toEndOf="@id/btn_center"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="边距"
+        app:layout_constraintStart_toEndOf="@id/btn_chain"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/btn_relative"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="相对位置"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_barrier" />
+
+    <Button
+        android:id="@+id/btn_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="尺寸"
+        app:layout_constraintStart_toEndOf="@id/btn_relative"
+        app:layout_constraintTop_toBottomOf="@id/btn_barrier" />
+
+    <Button
+        android:id="@+id/btn_other"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="其它"
+        app:layout_constraintStart_toEndOf="@id/btn_size"
+        app:layout_constraintTop_toBottomOf="@id/btn_barrier" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

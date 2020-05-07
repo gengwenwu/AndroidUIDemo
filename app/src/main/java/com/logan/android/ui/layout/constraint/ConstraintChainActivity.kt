@@ -14,7 +14,7 @@ class ConstraintChainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_constraint_circle)
+        setContentView(R.layout.activity_constraint_chain)
 
         // 1，chain
         // 如果两个或以上控件通过下面的方式约束在一起，就可以认为是它是一条链（图为横向的链)

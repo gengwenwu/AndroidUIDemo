@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
-        android:text="必须先约束相对位置，否则margin属性无效。"
+        android:background="@android:color/holo_green_light"
+        android:text="设置约束相对位置后，margin才有效。"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,11 +24,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@android:color/holo_orange_light"
         android:text="goneMargin特点"
-        android:textColor="@android:color/holo_red_light"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tv_tv1"
         app:layout_constraintLeft_toRightOf="@+id/tv_tv1"
-        app:layout_goneMarginStart="50dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginStart="100dp" />
 
     <Button
         android:id="@+id/btn_show"

@@ -3,6 +3,7 @@ package com.logan.android.ui.layout.constraint
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.logan.android.ui.R
 
@@ -16,7 +17,7 @@ class ConstraintMarginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_constraint_circle)
+        setContentView(R.layout.activity_constraint_margin)
 
         // 1， ConstraintLayout里面要实现margin，要注意两点：
         //      (1), 必须先约束控件在ConstraintLayout里的位置，否则单独设置margin属性无效。
@@ -41,7 +42,7 @@ class ConstraintMarginActivity : AppCompatActivity() {
 
 
         findViewById<Button>(R.id.btn_show).setOnClickListener {
-            findViewById<Button>(R.id.tv_tv1).visibility = View.GONE
+            findViewById<TextView>(R.id.tv_tv1).visibility = View.GONE
         }
 
     }
