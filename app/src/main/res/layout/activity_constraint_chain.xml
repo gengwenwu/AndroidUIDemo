@@ -191,7 +191,8 @@
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintHorizontal_weight="3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_row5_tv1" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_row5_tv1"
+        app:layout_optimizationLevel="chains" />
 
     <TextView
         android:id="@+id/tv_row6_tv2"
