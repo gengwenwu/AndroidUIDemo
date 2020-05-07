@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <!--  1, 组 group -->
     <TextView
         android:id="@+id/tv_tv1"
         android:layout_width="100dp"
@@ -36,7 +37,6 @@
         app:layout_constraintStart_toEndOf="@id/tv_tv2"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!--  1, 组 group -->
     <androidx.constraintlayout.widget.Group
         android:id="@+id/group"
         android:layout_width="wrap_content"
@@ -52,7 +52,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_tv1" />
 
-    <!--  2,  Placeholder设置 app:content="@+id/tv_tv4", tv_tv4组件位置移动到Placeholder位置  -->
+    <!--  2,  Placeholder设置 app:content="@+id/tv_tv4", tv_tv4组件移动到Placeholder位置  -->
     <androidx.constraintlayout.widget.Placeholder
         android:id="@+id/place_holder"
         android:layout_width="wrap_content"
@@ -66,7 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:background="@android:color/holo_red_light"
+        android:background="@android:color/holo_purple"
         android:text="PlaceHolder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -80,6 +80,45 @@
         android:text="点击我，看place holder效果"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_tv4" />
+
+    <!-- 3,  guide line
+        app:layout_constraintGuide_begin
+        app:layout_constraintGuide_end
+        app:layout_constraintGuide_percent
+    -->
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="250dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="50dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.6" />
+
+    <TextView
+        android:id="@+id/tv_guide_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:background="@android:color/darker_gray"
+        android:padding="20dp"
+        android:text="Guide Line，看xml写法"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_show_4_place_holder" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

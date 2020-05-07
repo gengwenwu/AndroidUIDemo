@@ -38,6 +38,12 @@ class ConstraintOtherActivity : AppCompatActivity() {
             findViewById<Placeholder>(R.id.place_holder).setContentId(R.id.tv_tv4);
         }
 
+        // 3，Guild line 像辅助线一样，在预览的时候帮助你完成布局（不会显示在界面上）。Guild line的主要属性：
+        //      android:orientation  垂直vertical，水平horizontal
+        //      app:layout_constraintGuide_begin  开始位置
+        //      app:layout_constraintGuide_end  结束位置
+        //      app:layout_constraintGuide_percent 距离顶部的百分比(orientation = horizontal时则为距离左边)
+        //
     }
 
 }
