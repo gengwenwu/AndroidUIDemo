@@ -17,12 +17,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/tv_tv2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="我在这里"
         android:textColor="@android:color/holo_red_light"
         app:layout_constraintCircle="@id/tv_tv1"
         app:layout_constraintCircleAngle="120"
-        app:layout_constraintCircleRadius="100dp" />
+        app:layout_constraintCircleRadius="100dp"
+        app:layout_constraintStart_toEndOf="@+id/tv_tv1"
+        app:layout_constraintTop_toBottomOf="@+id/tv_tv1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,7 +21,7 @@ class ConstraintMarginActivity : AppCompatActivity() {
 
         // 1， ConstraintLayout里面要实现margin，要注意两点：
         //      (1), 必须先约束控件在ConstraintLayout里的位置，否则单独设置margin属性无效。
-        //      (2), margin只能 >= 0
+        //      (2), margin 必须 >= 0
         //      常用的margin属性：
         //          android:layout_marginStart
         //          android:layout_marginEnd
