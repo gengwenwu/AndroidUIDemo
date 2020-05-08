@@ -1,4 +1,4 @@
-本包里面包括约束布局ConstraintLayout案例，入口可以在ConstraintMainActivity页面都可以进入看到。
+本包目录包括约束布局ConstraintLayout所有案例，从ConstraintMainActivity是所有案例的总入口。
 
 [1，项目中都案例参考地址](https://www.jianshu.com/p/17ec9bd6ca8a)
 

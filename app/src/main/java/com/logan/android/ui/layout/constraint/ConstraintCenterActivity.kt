@@ -23,12 +23,12 @@ class ConstraintCenterActivity : AppCompatActivity() {
         // app:layout_constraintTop_toTopOf="parent"
 
         // 2， 左右居中。RelativeLayout水平居中layout_centerHorizontal=true，相当于在ConstraintLayout约束控件的左右为parent的左右：
-        //      app:layout_constraintLeft_toLeftOf="parent"
-        //      app:layout_constraintRight_toRightOf="parent"
+        // app:layout_constraintEnd_toEndOf="parent"
+        // app:layout_constraintStart_toStartOf="parent"
 
         // 3， 垂直居中。RelativeLayout垂直居中layout_centerVertical=true，ConstraintLayout约束控件的上下为parent的上下：
-        //      app:layout_constraintLeft_toLeftOf="parent"
-        //      app:layout_constraintTop_toTopOf="parent"
+        //  app:layout_constraintBottom_toBottomOf="parent"
+        //  app:layout_constraintTop_toTopOf="parent"
 
         // 4，居中的同时使用margin属性，是先margin后，再居中。
         // 譬如：layout_marginLeft="100dp"向右偏移了100dp后，再对控件居中。

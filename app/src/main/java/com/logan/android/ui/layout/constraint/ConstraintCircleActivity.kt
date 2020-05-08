@@ -18,8 +18,8 @@ class ConstraintCircleActivity : AppCompatActivity() {
 
         // 角度定位：可以用一个角度和一个距离来约束两个组件的中心，使用下面属性：
         // app:layout_constraintCircle="@id/tv_tv1"
-        // app:layout_constraintCircleAngle="120" // 从tv_tv1组件正上方顺时针120度
-        // app:layout_constraintCircleRadius="100dp" // 距离150dp
+        // app:layout_constraintCircleAngle="120" // 从tv_tv1组件从12点方向开始，顺时针120度
+        // app:layout_constraintCircleRadius="100dp" // 距离100dp
     }
 
 }

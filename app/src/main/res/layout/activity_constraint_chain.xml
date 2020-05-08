@@ -186,7 +186,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="@android:color/holo_green_light"
-        android:text="带有Weight"
+        android:text="带有Weight 3"
         app:layout_constraintEnd_toStartOf="@id/tv_row6_tv2"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintHorizontal_weight="3"
