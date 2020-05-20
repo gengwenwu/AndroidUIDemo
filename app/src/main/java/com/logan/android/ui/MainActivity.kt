@@ -3,6 +3,7 @@ package com.logan.android.ui
 import android.os.Bundle
 import android.widget.Button
 import com.logan.android.ui.base.BaseActivity
+import com.logan.android.ui.image.glide.GlideMainActivity
 import com.logan.android.ui.layout.constraint.ConstraintMainActivity
 
 class MainActivity : BaseActivity() {
@@ -16,6 +17,10 @@ class MainActivity : BaseActivity() {
             startActivity<ConstraintMainActivity>()
         }
 
+        // glide
+        findViewById<Button>(R.id.btn_glide).setOnClickListener {
+            startActivity<GlideMainActivity>()
+        }
     }
 
 }

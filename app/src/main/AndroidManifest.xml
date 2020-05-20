@@ -17,6 +17,10 @@
             </intent-filter>
         </activity>
 
+        <!-- Glide -->
+        <activity android:name=".image.glide.GlideMainActivity" />
+
+
         <!-- 约束布局 -->
         <activity android:name=".layout.constraint.ConstraintMainActivity" />
         <activity android:name=".layout.constraint.ConstraintBarrierActivity" />

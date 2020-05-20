@@ -7,20 +7,11 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/btn_constraint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="约束布局"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
         android:id="@+id/btn_glide"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Glide"
-        app:layout_constraintLeft_toRightOf="@+id/btn_constraint"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
