@@ -3,13 +3,19 @@ package com.logan.android.ui.image.glide
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.text.format.DateUtils.LENGTH_SHORT
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.flexbox.FlexboxLayout
 import com.logan.android.ui.R
@@ -51,6 +57,9 @@ class GlideMainActivity : BaseActivity() {
         //
         val URL_IMAGE_2_MB =
             "https://images.unsplash.com/photo-1479689836735-bd21a38cbffd?ixlib=rb-0.3.5&q=99&fm=jpg&crop=entropy&cs=tinysrgb&w=2048&fit=max&s=ac300ebd9dd7b3beb51635a80fd4347c"
+
+        val URL_IMAGE_4_MB_6000_4000 =
+            "https://pixabay.com/get/53e1d14b4254a914ead9827bcf2d3f7b1422dfe05a51704a7c297dd7.jpg?attachment="
 
         // 小质量图片
         val IMAGE_SMALL = URL_IMAGE_75_KB_800_800
@@ -220,13 +229,44 @@ class GlideMainActivity : BaseActivity() {
                         }
                     })
 
-                //  所有into() 最终调用下面等into()
+                //  所有into() 最终调用下面的into()
                 //  private <Y extends Target<TranscodeType>> Y into(
                 //      @NonNull Y target,
                 //      @Nullable RequestListener<TranscodeType> targetListener, // TranscodeType 指的是 设置的 asBitmap（）、asDrawable（）等之后设置的类型。
                 //      BaseRequestOptions<?> options,
                 //      Executor callbackExecutor
                 //   ) { }
+
+            }),
+            ButtonModel("预加载图片", View.OnClickListener {
+                // 6.2 预加载图片到缓存
+                // 如果有两个页面A（当前页面） 和 B（跳转页面），在 B 页面中要使用 Glide 显示一个很大的图片，
+                // 那么在 A 页面的时候就可以先把 B 页面中要加载的图片缓存下来，等到 B 页面的时候，就可直接读取显示。
+                Glide.with(context)
+                    .load(URL_IMAGE_4_MB_6000_4000)
+                    // 下载监听
+                    .listener(object : RequestListener<Drawable> {
+                        override fun onLoadFailed(
+                            e: GlideException?, model: Any?,
+                            target: Target<Drawable>?, isFirstResource: Boolean
+                        ): Boolean {
+                            showMsg("加载失败")
+                            return false
+                        }
+
+                        override fun onResourceReady(
+                            resource: Drawable?, model: Any?, target: Target<Drawable>?,
+                            dataSource: DataSource?, isFirstResource: Boolean
+                        ): Boolean {
+                            showMsg("加载成功，下个页面从缓存中取了。")
+
+                            // 不写下个页面了，就在这里取吧
+                            Glide.with(context).load(URL_IMAGE_4_MB_6000_4000).into(imageView);
+                            return false
+                        }
+                    })
+                    // 图片预加载
+                    .preload()
 
             })
 
