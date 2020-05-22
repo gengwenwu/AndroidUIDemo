@@ -1,6 +1,7 @@
 package com.logan.android.ui.image.glide
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,8 @@ import android.widget.Button
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import com.google.android.flexbox.FlexboxLayout
 import com.logan.android.ui.R
 import com.logan.android.ui.base.BaseActivity
@@ -202,7 +205,31 @@ class GlideMainActivity : BaseActivity() {
                     .load(URL_IMAGE_2_MB)
                     .thumbnail(0.1f) // 传入 0 到 1 之间的 float 值
                     .into(imageView)
+            }),
+
+            // 6, Glide 预加载、缓存到硬盘、以及加载监听
+            ButtonModel("换一种方式加载图片", View.OnClickListener {
+                // 6.1 换一种方式加载图片
+                Glide.with(context)
+                    .load(URL_IMAGE_2_MB)
+                    .into(object : SimpleTarget<Drawable>() {
+                        override fun onResourceReady(
+                            resource: Drawable, transition: Transition<in Drawable>?
+                        ) {
+                            imageView.setImageDrawable(resource)
+                        }
+                    })
+
+                //  所有into() 最终调用下面等into()
+                //  private <Y extends Target<TranscodeType>> Y into(
+                //      @NonNull Y target,
+                //      @Nullable RequestListener<TranscodeType> targetListener, // TranscodeType 指的是 设置的 asBitmap（）、asDrawable（）等之后设置的类型。
+                //      BaseRequestOptions<?> options,
+                //      Executor callbackExecutor
+                //   ) { }
+
             })
+
 
         )
     }
