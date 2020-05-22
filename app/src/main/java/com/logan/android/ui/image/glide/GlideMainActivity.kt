@@ -27,7 +27,11 @@ class GlideMainActivity : BaseActivity() {
         val ERROR_URL = "http://tiebapic.baidu.com/09fac7db.jpg"
 
         //
-        val URL_IMAGE_75_KB =
+        val URL_IAMGE_8_KB_144_144 =
+            "https://imglf5.nosdn.127.net/img/blJBWWNxcUllaVllbTlLdWF2YWdsQWdrdEFhUFRXZE1hWHphWWdKZm8xd3dwdkN1QkVTQ05nPT0.jpg?imageView&thumbnail=180x180&quality=90&type=jpg"
+
+        //
+        val URL_IMAGE_75_KB_800_800 =
             "https://imcut.jollychic.com//uploads/jollyimg/imageService/img/goods/2019/08/21/14/30/b6db0215-5a1d-4c80-974c-9c0d7fb6255c.jpg"
 
         //
@@ -38,7 +42,7 @@ class GlideMainActivity : BaseActivity() {
             "https://images.unsplash.com/photo-1479689836735-bd21a38cbffd?ixlib=rb-0.3.5&q=99&fm=jpg&crop=entropy&cs=tinysrgb&w=2048&fit=max&s=ac300ebd9dd7b3beb51635a80fd4347c"
 
         // 小质量图片
-        val IMAGE_SMALL = URL_IMAGE_75_KB
+        val IMAGE_SMALL = URL_IMAGE_75_KB_800_800
 
         // 中等质量图片
         val IMAGE_MIDDLE = URL_IMAGE_900_KB
@@ -109,6 +113,35 @@ class GlideMainActivity : BaseActivity() {
                 //      2. 加载成功显示 url 指向的图片。
                 //      3. 加载失败显示 ic_error。
                 //      4. 如果 url 为 null（一定得是 null ），则显示图片 ic_fallback。
+            }),
+
+            // 3, 加载指定大小的图片
+            ButtonModel("加载指定大小的图片", View.OnClickListener {
+                // 关于图片尺寸
+                // 情况一： 如果加载的图片尺寸是 1080*1920 的，但显示的 ImageView 的大小却是 100 * 100的，
+                // 这个时候，不用做任何操作的，因为 Glide 会自动的根据 ImageView 的大小来决定加载图片的大小。
+
+                // 情况二：如果 ImageView 是 100*100 的，但要加载的图片大小为 88*88，那可以通过override()指定加载的尺寸，
+                // 但是这种方式 layout_width、layout_height不能同时制定尺寸，否则不生效：
+                val options: RequestOptions = RequestOptions()
+                    .placeholder(R.drawable.ic_default).error(R.drawable.ic_error)
+                    .override(144, 144)
+
+                Glide.with(context).load(URL_IAMGE_8_KB_144_144).apply(options).into(imageView)
+
+                // 注意的是
+                // 虽然设置加载图片的大小，但 placeholder 和 error 的尺寸是不会变的，依旧根据我们的 ImageView 自动计算的。
+            }),
+            ButtonModel("加载原始图片", View.OnClickListener {
+                // 如果不想让 Glide 帮我们计算并压缩要加载的图片，我就要加载原始图片大小，当然也是可以的，你可以这样写：
+                val options: RequestOptions = RequestOptions()
+                    .placeholder(R.drawable.ic_default).error(R.drawable.ic_error)
+                    .override(com.bumptech.glide.request.target.Target.SIZE_ORIGINAL)
+                // TODO: 2020/5/22 Logan  SIZE_ORIGINAL 内存？还是图片尺寸？原理？好像没生效。
+
+                Glide.with(context).load(IMAGE_BIG).apply(options).into(imageView)
+                // 不建议这样做，因为比如原始图片大小 1024*1024，而 ImageView 是 128*128，
+                // 那么两种加载方式占用的内存可能会相差几十倍。
             })
 
         )
