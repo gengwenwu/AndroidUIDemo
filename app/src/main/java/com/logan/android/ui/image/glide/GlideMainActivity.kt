@@ -31,6 +31,10 @@ class GlideMainActivity : BaseActivity() {
             "https://imcut.jollychic.com/uploads/jollyimg/imageService/img/bizz/2020/02/01/12/30/fe62f691-d2cb-4ebf-8fac-a4f423acd7ac.gif"
 
         //
+        val URL_IMAGE_172_KB_1000_1000 =
+            "https://imcut.jollychic.com//uploads/jollyimg/imageService/img/goods/2019/12/08/13/05/57488a38-b12c-4d83-bff9-1d0e89d17304.jpg"
+
+        //
         val URL_IAMGE_8_KB_144_144 =
             "https://imglf5.nosdn.127.net/img/blJBWWNxcUllaVllbTlLdWF2YWdsQWdrdEFhUFRXZE1hWHphWWdKZm8xd3dwdkN1QkVTQ05nPT0.jpg?imageView&thumbnail=180x180&quality=90&type=jpg"
 
@@ -172,7 +176,34 @@ class GlideMainActivity : BaseActivity() {
 
                 // 加载File TODO
                 // Glide.with(context).asFile().load(IMAGE_BIG)
+            }),
+
+            // 5、缩略图的使用
+            // 加载的图片有高分辨率版本和低分辨率版本，高分辨加载耗时，所以 Glide 提供了 thumbnail() 优先加载缩略图。
+            // thumbnail 方法的参数主要有以下两种：
+            //      1， RequestBuilder thumbnailRequest
+            //      2， float sizeMultiplier
+            ButtonModel("缩略图RequestBuilder", View.OnClickListener {
+                // 5.1 RequestBuilder 方式
+                val highQualityImageUrl = URL_IMAGE_2_MB
+                val lowQualityImageUrl = URL_IMAGE_172_KB_1000_1000
+
+                // 先加载并显示 lowQualityImageUrl 图片，等到 highQualityImageUrl 图片加载完成之后，则显示 highQualityImageUrl 图片。
+                Glide.with(context)
+                    .load(highQualityImageUrl)
+                    .thumbnail(Glide.with(context).load(lowQualityImageUrl))
+                    .into(imageView)
+            }),
+            ButtonModel("缩略图float", View.OnClickListener {
+                // 5.2 参数为 float 方式 TODO 效果不明显
+                // 直接显示 highQualityImageUrl 图片的一般分辨率的图片，等到 highQualityImageUrl 图片完全加载之后，
+                // 再显示 highQualityImageUrl 指向的完整图片。
+                Glide.with(context)
+                    .load(URL_IMAGE_2_MB)
+                    .thumbnail(0.1f) // 传入 0 到 1 之间的 float 值
+                    .into(imageView)
             })
+
         )
     }
 }
