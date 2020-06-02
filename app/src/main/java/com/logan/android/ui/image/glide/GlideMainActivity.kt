@@ -297,6 +297,30 @@ class GlideMainActivity : BaseActivity() {
                             imageView.setImageBitmap(it)
                         }
                     }
+            }),
+
+            // 7， 图片变换
+            // 在Glide中，Transformations 可以获取资源并修改它，然后返回被修改后的资源。
+            // 通常变换操作是用来完成剪裁或对位图应用过滤器，但它也可以用于转换GIF动画，甚至自定义的资源类型。
+            // Glide 内置了几种变换，比如 ：
+            //   (1), CenterCrop  圆形  TODO Logan 几种类型区别
+            //   (2), FitCenter
+            //   (3), CircleCrop 圆形
+            ButtonModel("图片变换(单次)", View.OnClickListener {
+                // 7.1 单次变换
+                val options = RequestOptions().circleCrop()
+                Glide.with(context).load(IMAGE_SMALL).apply(options).into(imageView)
+
+                // 与上一句效果一样
+//                Glide.with(context).load(IMAGE_SMALL)
+//                    .apply(RequestOptions.circleCropTransform()).into(imageView)
+
+                // 需要注意，如果下面的写法，是有些问题的。
+//                Glide.with(context).load(IMAGE_SMALL)
+//                    .apply(RequestOptions.centerCropTransform()) // 忽略该效果
+//                    .apply(RequestOptions.circleCropTransform()) // 仅执行该效果
+//                    .into(imageView)
+                // 如果想一次加载中变换多次，那么需要使用 MultiTransformation。
             })
         )
     }
