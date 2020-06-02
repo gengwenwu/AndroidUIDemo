@@ -1,17 +1,19 @@
 package com.logan.android.ui.image.glide
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.text.format.DateUtils.LENGTH_SHORT
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.Toast
+import androidx.annotation.WorkerThread
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.FutureTarget
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
@@ -22,6 +24,16 @@ import com.logan.android.ui.R
 import com.logan.android.ui.base.BaseActivity
 import com.logan.android.ui.entity.ButtonModel
 import com.logan.android.ui.tool.dp2px
+import com.logan.android.ui.tool.isMainThread
+import com.logan.android.ui.tool.log
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.schedulers.Schedulers
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileNotFoundException
+import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 /**
  * desc: glide 案例主页面 <br/>
@@ -58,8 +70,6 @@ class GlideMainActivity : BaseActivity() {
         val URL_IMAGE_2_MB =
             "https://images.unsplash.com/photo-1479689836735-bd21a38cbffd?ixlib=rb-0.3.5&q=99&fm=jpg&crop=entropy&cs=tinysrgb&w=2048&fit=max&s=ac300ebd9dd7b3beb51635a80fd4347c"
 
-        val URL_IMAGE_4_MB_6000_4000 =
-            "https://pixabay.com/get/53e1d14b4254a914ead9827bcf2d3f7b1422dfe05a51704a7c297dd7.jpg?attachment="
 
         // 小质量图片
         val IMAGE_SMALL = URL_IMAGE_75_KB_800_800
@@ -186,7 +196,7 @@ class GlideMainActivity : BaseActivity() {
                 // 加载drawable
                 // Glide.with(context).asDrawable().load(IMAGE_BIG).apply(options).into(imageView)
 
-                // 加载File TODO
+                // 加载File（见下面6.3例子）
                 // Glide.with(context).asFile().load(IMAGE_BIG)
             }),
 
@@ -243,7 +253,7 @@ class GlideMainActivity : BaseActivity() {
                 // 如果有两个页面A（当前页面） 和 B（跳转页面），在 B 页面中要使用 Glide 显示一个很大的图片，
                 // 那么在 A 页面的时候就可以先把 B 页面中要加载的图片缓存下来，等到 B 页面的时候，就可直接读取显示。
                 Glide.with(context)
-                    .load(URL_IMAGE_4_MB_6000_4000)
+                    .load(URL_IMAGE_2_MB)
                     // 下载监听
                     .listener(object : RequestListener<Drawable> {
                         override fun onLoadFailed(
@@ -261,18 +271,57 @@ class GlideMainActivity : BaseActivity() {
                             showMsg("加载成功，下个页面从缓存中取了。")
 
                             // 不写下个页面了，就在这里取吧
-                            Glide.with(context).load(URL_IMAGE_4_MB_6000_4000).into(imageView);
+                            Glide.with(context).load(URL_IMAGE_2_MB).into(imageView);
                             return false
                         }
                     })
                     // 图片预加载
                     .preload()
 
+            }),
+            ButtonModel("下载图片", View.OnClickListener {
+                // 6.3 下载图片到指定地址
+                Observable.timer(10, TimeUnit.MICROSECONDS)
+                    .subscribeOn(Schedulers.io())
+                    .map { createBitmapFromNetImage(context) }
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe {
+                        if (it == null) {
+                            showMsg("图片下载失败，再尝试一下！")
+                        } else {
+                            imageView.setImageBitmap(it)
+                        }
+                    }
             })
-
-
         )
     }
+
+    @WorkerThread
+    private fun createBitmapFromNetImage(context: Context): Bitmap? {
+        // 也可以先把图片下载到硬盘上，得到一个 File文件，这个时候要用到 submit()。
+        val target: FutureTarget<File> = Glide.with(context)
+            .asFile()
+            .load(URL_IMAGE_2_MB)
+            .submit()
+
+        var bitmap: Bitmap? = null
+
+        try {
+            val file: File = target.get() // get() 阻塞线程，开始获取网络文件。
+            log("图片下载完成，地址:${file.getAbsolutePath()}， 主线程:${isMainThread()}")
+            val inputStream = FileInputStream(file)
+            bitmap = BitmapFactory.decodeStream(inputStream)
+            inputStream.close()
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } finally {
+        }
+
+        return bitmap
+    }
+
 }
 
 fun createButtons(
