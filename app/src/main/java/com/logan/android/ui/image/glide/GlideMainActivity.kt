@@ -256,7 +256,12 @@ class GlideMainActivity : BaseActivity() {
                     .load(URL_IMAGE_2_MB)
                     // 下载监听
                     .listener(object : RequestListener<Drawable> {
-                        override fun onLoadFailed(
+                        // onResourceReady() 方法和 onLoadFailed() 方法都有一个布尔值的返回值，
+                        //  1， 返回 false 就表示这个事件没有被处理，还会继续向下传递，
+                        //  2， 返回 true 就表示这个事件已经被处理掉了，从而不会再继续向下传递。
+                        // 举个简单例子：如果在 RequestListener 的 onResourceReady() 中返回了 true，
+                        // 那么就不会再回调 Target的onResourceReady() 方法了。
+                        override fun onLoadFailed( // 加载失败
                             e: GlideException?, model: Any?,
                             target: Target<Drawable>?, isFirstResource: Boolean
                         ): Boolean {
@@ -264,7 +269,7 @@ class GlideMainActivity : BaseActivity() {
                             return false
                         }
 
-                        override fun onResourceReady(
+                        override fun onResourceReady( // 加载成功
                             resource: Drawable?, model: Any?, target: Target<Drawable>?,
                             dataSource: DataSource?, isFirstResource: Boolean
                         ): Boolean {
