@@ -344,6 +344,17 @@ class GlideMainActivity : BaseActivity() {
                     .skipMemoryCache(true)
                 Glide.with(context).load(IMAGE_BIG).apply(skipMemoryAndDiskCacheOptions)
                     .into(imageView)
+            }),
+            // 9, Glide OOM
+            ButtonModel("Glide OOM", View.OnClickListener {
+                // 如果设置 ImageView 的 ScaleType 是 fitxy ，Glide 会默认按照图片实际大小加载。
+                // 而scaleType其他模式会按照的 ImageView 的大小。
+                imageView.scaleType = ImageView.ScaleType.FIT_XY // fitxy 容易OOMw
+                Glide.with(context).load(IMAGE_BIG).into(imageView)
+
+                // 如果非要设置 fitxy，那么使用 centerCrop() 和 fitCenter() 处理
+                // Glide.with(context).load(IMAGE_BIG).centerCrop().into(imageView)
+                // Glide.with(context).load(IMAGE_BIG).fitCenter().into(imageView)
             })
         )
     }
