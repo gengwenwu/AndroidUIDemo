@@ -13,6 +13,7 @@ import androidx.annotation.WorkerThread
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.MultiTransformation
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
@@ -47,6 +48,11 @@ import java.util.concurrent.TimeUnit
 class GlideMainActivity : BaseActivity() {
 
     companion object {
+        val IMAGE_URL_PREFIX =
+            "https://raw.githubusercontent.com/gengwenwu/AndroidUIDemo/master/app/src/main/res/drawable"
+
+        val IMAGE_DOG_3MB_5295_3355 = "/res_dog_3mb_5295_3355.jpg"
+
         // 错误image地址
         val ERROR_URL = "http://tiebapic.baidu.com/09fac7db.jpg"
 
@@ -81,7 +87,7 @@ class GlideMainActivity : BaseActivity() {
         val IMAGE_MIDDLE = URL_IMAGE_900_KB
 
         // 大质量图片
-        val IMAGE_BIG = URL_IMAGE_2_MB
+        val IMAGE_BIG = IMAGE_URL_PREFIX + IMAGE_DOG_3MB_5295_3355
     }
 
 
@@ -330,6 +336,14 @@ class GlideMainActivity : BaseActivity() {
                 val multiTransform = MultiTransformation<Bitmap>(CenterCrop(), CircleCrop())
                 val options = RequestOptions().transform(multiTransform)
                 Glide.with(context).load(IMAGE_SMALL).apply(options).into(imageView)
+            }),
+            // 8, 禁用磁盘和内存的缓
+            ButtonModel("禁用磁盘和内存的缓存图片", View.OnClickListener {
+                val skipMemoryAndDiskCacheOptions = RequestOptions()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                Glide.with(context).load(IMAGE_BIG).apply(skipMemoryAndDiskCacheOptions)
+                    .into(imageView)
             })
         )
     }
