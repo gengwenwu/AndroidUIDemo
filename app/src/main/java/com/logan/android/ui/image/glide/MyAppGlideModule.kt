@@ -1,25 +1,24 @@
 package com.logan.android.ui.image.glide
 
 import android.content.Context
-import android.net.Uri
-import android.os.ParcelFileDescriptor
-import android.provider.ContactsContract.CommonDataKinds.Website.URL
 import com.bumptech.glide.Glide
 import com.bumptech.glide.GlideBuilder
 import com.bumptech.glide.Registry
 import com.bumptech.glide.annotation.GlideModule
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
-import com.bumptech.glide.load.engine.bitmap_recycle.LruBitmapPool
-import com.bumptech.glide.load.engine.cache.ExternalPreferredCacheDiskCacheFactory
-import com.bumptech.glide.load.engine.cache.LruResourceCache
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.module.AppGlideModule
 import com.logan.android.ui.tool.log
-import java.io.File
 import java.io.InputStream
 
 /**
- * desc: 自定义模块, Glide 4.0 之前版本的用法 <br/>
+ * desc: 自定义Glide相关配置，在glide首次初始化调用 <br/>
+ *
+ * 注意：
+ * 一个项目（包含主项目与依赖库）中只能存在一个继承AppGlideModule的自定义模块，如果有多个，则会报：
+ *  com.android.dex.DexException: Multiple dex files define Lcom/bumptech/glide/GeneratedAppGlideModuleImpl异常。
+ *
+ *
  * time: 2020/6/2 5:58 PM <br/>
  * author: Logan <br/>
  * since V 1.0 <br/>

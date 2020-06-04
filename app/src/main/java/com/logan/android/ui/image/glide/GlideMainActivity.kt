@@ -10,13 +10,16 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import androidx.annotation.WorkerThread
+import com.bumptech.glide.GenericTransitionOptions
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.FutureTarget
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
@@ -138,7 +141,7 @@ class GlideMainActivity : BaseActivity() {
                     .placeholder(R.drawable.ic_default)
                     .error(R.drawable.ic_error)
                     .fallback(R.drawable.ic_fallback)
-                    .override(com.bumptech.glide.request.target.Target.SIZE_ORIGINAL) // TODO override？
+                    .override(Target.SIZE_ORIGINAL) // 指定大小为图片原始大小，有更高OOM风险
 
                 val nullUrl: String? = null
                 Glide.with(context).load(nullUrl).apply(optionsFallback).into(imageView)
@@ -155,11 +158,12 @@ class GlideMainActivity : BaseActivity() {
                 // 情况一： 如果加载的图片尺寸是 1080*1920 的，但显示的 ImageView 的大小却是 100 * 100的，
                 // 这个时候，不用做任何操作的，因为 Glide 会自动的根据 ImageView 的大小来决定加载图片的大小。
 
-                // 情况二：如果 ImageView 是 100*100 的，但要加载的图片大小为 88 * 88，那可以通过override()指定加载的尺寸，
+                // 情况二：无视imageView大小，指定图片尺寸。
+                // 如：ImageView 是 100*100 的，但要加载的图片大小为 88*88，可以通过override()指定加载的尺寸，
                 // 但是这种方式 layout_width、layout_height不能同时制定尺寸，否则不生效。
                 val options: RequestOptions = RequestOptions()
                     .placeholder(R.drawable.ic_default).error(R.drawable.ic_error)
-                    .override(144, 144)
+                    .override(144, 144)  // 指定144*144
 
                 Glide.with(context).load(URL_IMAGE_DUST_DOG_8KB_144_144)
                     .apply(options).into(imageView)
@@ -171,8 +175,7 @@ class GlideMainActivity : BaseActivity() {
                 // 如果不想让 Glide 帮我们计算并压缩要加载的图片，我就要加载原始图片大小，当然也是可以的，可以这样写：
                 val options: RequestOptions = RequestOptions()
                     .placeholder(R.drawable.ic_default).error(R.drawable.ic_error)
-                    .override(com.bumptech.glide.request.target.Target.SIZE_ORIGINAL)
-                // TODO: 2020/5/22 Logan SIZE_ORIGINAL 内存？还是图片尺寸？原理？好像没生效。
+                    .override(Target.SIZE_ORIGINAL) // 指定大小为图片原始大小，有更高OOM风险
 
                 Glide.with(context).load(IMAGE_BIG).apply(options).into(imageView)
                 // 不建议这样做，因为比如原始图片大小 1024*1024，而 ImageView 是 128*128，
@@ -356,7 +359,34 @@ class GlideMainActivity : BaseActivity() {
                 // 如果非要设置 fitxy，那么使用 centerCrop() 和 fitCenter() 处理
                 // Glide.with(context).load(IMAGE_BIG).centerCrop().into(imageView)
                 // Glide.with(context).load(IMAGE_BIG).fitCenter().into(imageView)
+            }),
+
+            // 10，配置过渡动画
+            ButtonModel("过渡动画", View.OnClickListener {
+                val skipMemoryAndDiskCacheOptions = RequestOptions()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+
+                Glide.with(context)
+                    .load(URL_IMAGE_WATCH_172KB_1000_100).apply(skipMemoryAndDiskCacheOptions)
+                    .transition(DrawableTransitionOptions.withCrossFade(800)) // 适用于Drawable，过渡动画持续800ms
+                    // .transition(BitmapTransitionOptions.withCrossFade(800))// 适用于Bitmap，过渡动画持续800ms
+                    // .transition(GenericTransitionOptions.with(animationId)) // 适用于自定义过渡效果，传入animationId
+                    .into(imageView)
+            }),
+
+            // 11，清理缓存和内存
+            ButtonModel("清理缓存和内存", View.OnClickListener {
+                // 清空内存缓存，要求在主线程中执行
+                Glide.get(context).clearMemory()
+
+                // 清空磁盘缓存，要求在后台线程中执行
+                Observable.timer(10, TimeUnit.MILLISECONDS).observeOn(Schedulers.io())
+                    .doOnNext {
+                        Glide.get(context).clearDiskCache()
+                    }.subscribe()
             })
+
         )
     }
 
