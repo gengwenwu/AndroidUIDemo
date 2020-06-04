@@ -48,46 +48,45 @@ import java.util.concurrent.TimeUnit
 class GlideMainActivity : BaseActivity() {
 
     companion object {
-        val IMAGE_URL_PREFIX =
+        //
+        val URL_PREFIX =
             "https://raw.githubusercontent.com/gengwenwu/AndroidUIDemo/master/app/src/main/res/drawable"
 
-        val IMAGE_DOG_3MB_5295_3355 = "/res_dog_3mb_5295_3355.jpg"
-
         // 错误image地址
-        val ERROR_URL = "http://tiebapic.baidu.com/09fac7db.jpg"
+        val URL_404 = "http://tiebapic.baidu.com/09fac7db.jpg"
+
+        // 3MB
+        val URL_IMAGE_DOG_3MB_5295_3355 = "${URL_PREFIX}/res_dog_3mb_5295_3355.jpg"
+
+        // 2MB
+        val URL_IMAGE_MOUNTAIN_2MB_2048_1367 = "${URL_PREFIX}/res_mountain_2mb_2048_1367.jpeg"
 
         //
-        val URL_GIF_125_KB_1680_580 =
-            "https://imcut.jollychic.com/uploads/jollyimg/imageService/img/bizz/2020/02/01/12/30/fe62f691-d2cb-4ebf-8fac-a4f423acd7ac.gif"
+        val URL_IMAGE_SEASCAPE_900KB_2048_1360 = "${URL_PREFIX}/res_seascape_900kb_2048_1360.jpg"
+
+        // 172kb
+        val URL_IMAGE_WATCH_172KB_1000_100 = "${URL_PREFIX}/res_watch_172kb_1000_100.jpg"
+
+        // 172kb
+        val URL_IMAGE_BG_PINK_172KB_1680_580 = "${URL_PREFIX}/res_bg_pink_131kb_1680_580.jpg"
+
+        // 125KB gif
+        val URL_GIF_JC_AD_125KB_1680_580 = "${URL_PREFIX}/res_jc_ad_125kb_1680_580.gif"
 
         //
-        val URL_IMAGE_172_KB_1000_1000 =
-            "https://imcut.jollychic.com//uploads/jollyimg/imageService/img/goods/2019/12/08/13/05/57488a38-b12c-4d83-bff9-1d0e89d17304.jpg"
+        val URL_IMAGE_MAN_SHOE_75KB_800_800 = "${URL_PREFIX}/res_man_shoe_75kb_800_800.jpg"
 
         //
-        val URL_IAMGE_8_KB_144_144 =
-            "https://imglf5.nosdn.127.net/img/blJBWWNxcUllaVllbTlLdWF2YWdsQWdrdEFhUFRXZE1hWHphWWdKZm8xd3dwdkN1QkVTQ05nPT0.jpg?imageView&thumbnail=180x180&quality=90&type=jpg"
-
-        //
-        val URL_IMAGE_75_KB_800_800 =
-            "https://imcut.jollychic.com//uploads/jollyimg/imageService/img/goods/2019/08/21/14/30/b6db0215-5a1d-4c80-974c-9c0d7fb6255c.jpg"
-
-        //
-        val URL_IMAGE_900_KB = "https://farm6.staticflickr.com/5344/9109117816_4de9739e71_k.jpg"
-
-        //
-        val URL_IMAGE_2_MB =
-            "https://images.unsplash.com/photo-1479689836735-bd21a38cbffd?ixlib=rb-0.3.5&q=99&fm=jpg&crop=entropy&cs=tinysrgb&w=2048&fit=max&s=ac300ebd9dd7b3beb51635a80fd4347c"
-
+        val URL_IMAGE_DUST_DOG_8KB_144_144 = "${URL_PREFIX}/res_dust_dog_8kb_144_144.jpg"
 
         // 小质量图片
-        val IMAGE_SMALL = URL_IMAGE_75_KB_800_800
+        val IMAGE_SMALL = URL_IMAGE_MAN_SHOE_75KB_800_800
 
         // 中等质量图片
-        val IMAGE_MIDDLE = URL_IMAGE_900_KB
+        val IMAGE_MIDDLE = URL_IMAGE_SEASCAPE_900KB_2048_1360
 
         // 大质量图片
-        val IMAGE_BIG = IMAGE_URL_PREFIX + IMAGE_DOG_3MB_5295_3355
+        val IMAGE_BIG = URL_IMAGE_DOG_3MB_5295_3355
     }
 
 
@@ -122,20 +121,18 @@ class GlideMainActivity : BaseActivity() {
                 val optionsError: RequestOptions = RequestOptions()
                     .placeholder(R.drawable.ic_default)
                     .error(R.drawable.ic_error)
-                Glide.with(context).load(ERROR_URL).apply(optionsError).into(imageView)
+                Glide.with(context).load(URL_404).apply(optionsError).into(imageView)
             }),
             ButtonModel("错误占位符(errorUrl)", View.OnClickListener {
                 // 从 Glide 4.3.0 开始，可以使用 error api 来指定一个 RequestBuilder，
                 // 在主请求失败的时候开始一次新的加载，即：加载 errorUrl 地址。
-                val backupUrlWhenLoadUrlError =
-                    "https://imcut.jollychic.com/uploads/jollyimg/imageMaterialLib/201906/28/IL201906281038536038.jpg"
-
+                val backupUrlWhenLoadUrlError = URL_IMAGE_BG_PINK_172KB_1680_580
                 Glide.with(context)
-                    .load(ERROR_URL)
+                    .load(URL_404)
                     .error(Glide.with(context).load(backupUrlWhenLoadUrlError))
                     .into(imageView)
             }),
-            ButtonModel("url==null则显示fallback图片", View.OnClickListener {
+            ButtonModel("url==null,显示fallback图片", View.OnClickListener {
                 // 2.3 load() 方法 url 应该不是 null ，但是如果有可能为 null 的情况，
                 //     你可以通过设置 fallback() 方法来显示 url 为 null 的图片，
                 val optionsFallback: RequestOptions = RequestOptions()
@@ -165,7 +162,9 @@ class GlideMainActivity : BaseActivity() {
                     .placeholder(R.drawable.ic_default).error(R.drawable.ic_error)
                     .override(144, 144)
 
-                Glide.with(context).load(URL_IAMGE_8_KB_144_144).apply(options).into(imageView)
+                Glide.with(context).load(URL_IMAGE_DUST_DOG_8KB_144_144)
+                    .apply(options)
+                    .into(imageView)
 
                 // 注意的是
                 // 虽然设置加载图片的大小，但 placeholder 和 error 的尺寸是不会变的，依旧根据我们的 ImageView 自动计算的。
@@ -196,7 +195,7 @@ class GlideMainActivity : BaseActivity() {
                     .override(com.bumptech.glide.request.target.Target.SIZE_ORIGINAL)
 
                 // 加载gif
-                Glide.with(context).asGif().load(URL_GIF_125_KB_1680_580).apply(options)
+                Glide.with(context).asGif().load(URL_GIF_JC_AD_125KB_1680_580).apply(options)
                     .into(imageView)
 
                 // 加载bitmap
@@ -216,8 +215,8 @@ class GlideMainActivity : BaseActivity() {
             //      2， float sizeMultiplier
             ButtonModel("缩略图RequestBuilder", View.OnClickListener {
                 // 5.1 RequestBuilder 方式
-                val highQualityImageUrl = URL_IMAGE_2_MB
-                val lowQualityImageUrl = URL_IMAGE_172_KB_1000_1000
+                val highQualityImageUrl = URL_IMAGE_MOUNTAIN_2MB_2048_1367
+                val lowQualityImageUrl = URL_IMAGE_WATCH_172KB_1000_100
 
                 // 先加载并显示 lowQualityImageUrl 图片，等到 highQualityImageUrl 图片加载完成之后，则显示 highQualityImageUrl 图片。
                 Glide.with(context)
@@ -226,20 +225,20 @@ class GlideMainActivity : BaseActivity() {
                     .into(imageView)
             }),
             ButtonModel("缩略图float", View.OnClickListener {
-                // 5.2 参数为 float 方式 TODO 效果不明显
+                // 5.2 参数为 float 方式 TODO 效果不明显?
                 // 直接显示 highQualityImageUrl 图片的一般分辨率的图片，等到 highQualityImageUrl 图片完全加载之后，
                 // 再显示 highQualityImageUrl 指向的完整图片。
                 Glide.with(context)
-                    .load(URL_IMAGE_2_MB)
+                    .load(URL_IMAGE_MOUNTAIN_2MB_2048_1367)
                     .thumbnail(0.1f) // 传入 0 到 1 之间的 float 值
                     .into(imageView)
             }),
 
             // 6, Glide 预加载、缓存到硬盘、以及加载监听
-            ButtonModel("换一种方式加载图片", View.OnClickListener {
+            ButtonModel("重载into()显示图片", View.OnClickListener {
                 // 6.1 换一种方式加载图片
                 Glide.with(context)
-                    .load(URL_IMAGE_2_MB)
+                    .load(URL_IMAGE_MOUNTAIN_2MB_2048_1367)
                     .into(object : SimpleTarget<Drawable>() {
                         override fun onResourceReady(
                             resource: Drawable, transition: Transition<in Drawable>?
@@ -262,7 +261,7 @@ class GlideMainActivity : BaseActivity() {
                 // 如果有两个页面A（当前页面） 和 B（跳转页面），在 B 页面中要使用 Glide 显示一个很大的图片，
                 // 那么在 A 页面的时候就可以先把 B 页面中要加载的图片缓存下来，等到 B 页面的时候，就可直接读取显示。
                 Glide.with(context)
-                    .load(URL_IMAGE_2_MB)
+                    .load(URL_IMAGE_MOUNTAIN_2MB_2048_1367)
                     // 下载监听
                     .listener(object : RequestListener<Drawable> {
                         // onResourceReady() 方法和 onLoadFailed() 方法都有一个布尔值的返回值，
@@ -282,10 +281,11 @@ class GlideMainActivity : BaseActivity() {
                             resource: Drawable?, model: Any?, target: Target<Drawable>?,
                             dataSource: DataSource?, isFirstResource: Boolean
                         ): Boolean {
-                            showMsg("加载成功，下个页面从缓存中取了。")
+                            showMsg("加载成功，可从缓存中既取既得")
 
                             // 不写下个页面了，就在这里取吧
-                            Glide.with(context).load(URL_IMAGE_2_MB).into(imageView);
+                            Glide.with(context).load(URL_IMAGE_MOUNTAIN_2MB_2048_1367)
+                                .into(imageView);
                             return false
                         }
                     })
@@ -364,7 +364,7 @@ class GlideMainActivity : BaseActivity() {
         // 也可以先把图片下载到硬盘上，得到一个 File文件，这个时候要用到 submit()。
         val target: FutureTarget<File> = Glide.with(context)
             .asFile()
-            .load(URL_IMAGE_2_MB)
+            .load(URL_IMAGE_MOUNTAIN_2MB_2048_1367)
             .submit()
 
         var bitmap: Bitmap? = null
