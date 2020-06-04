@@ -95,12 +95,13 @@ class GlideMainActivity : BaseActivity() {
         setContentView(R.layout.activity_glide_main)
 
         val imageView = findViewById<ImageView>(R.id.iv_image)
-        val buttonsModels = collectionButtons(this, imageView)
+        val buttonsModels = collectButtons(this, imageView)
         val viewContainer = findViewById<FlexboxLayout>(R.id.fl_view_container)
-        createButtons(this, viewContainer, *buttonsModels)
+
+        showButtons(this, viewContainer, *buttonsModels)
     }
 
-    fun collectionButtons(context: Context, imageView: ImageView): Array<ButtonModel> {
+    fun collectButtons(context: Context, imageView: ImageView): Array<ButtonModel> {
         return arrayOf(
             // 1，入门写法
             ButtonModel("简单用法", View.OnClickListener {
@@ -109,37 +110,35 @@ class GlideMainActivity : BaseActivity() {
 
             // 2, 占位符
             ButtonModel("默认占位符", View.OnClickListener {
-                // 2.1 默认占位符
-                // 如果加载的图片时间比较长，那么可以设置一个默认的图片
+                // 2.1 默认占位符 placeholder()。如果加载的图片时间比较长，那么可以设置一个默认的图片。
                 val options: RequestOptions = RequestOptions()
                     .placeholder(R.drawable.ic_default)
                 Glide.with(context).load(IMAGE_BIG).apply(options).into(imageView)
             }),
             ButtonModel("错误占位符", View.OnClickListener {
-                // 2.2  错误占位符
-                // 如果图片不能成功加载，就显示特定的图片
+                // 2.2  错误占位符 error()。 如果图片不能成功加载，就显示特定的图片。
                 val optionsError: RequestOptions = RequestOptions()
                     .placeholder(R.drawable.ic_default)
                     .error(R.drawable.ic_error)
                 Glide.with(context).load(URL_404).apply(optionsError).into(imageView)
             }),
             ButtonModel("错误占位符(errorUrl)", View.OnClickListener {
-                // 从 Glide 4.3.0 开始，可以使用 error api 来指定一个 RequestBuilder，
-                // 在主请求失败的时候开始一次新的加载，即：加载 errorUrl 地址。
-                val backupUrlWhenLoadUrlError = URL_IMAGE_BG_PINK_172KB_1680_580
+                // 从 Glide 4.3.0 开始，可以使用 error() 指定一个 RequestBuilder，
+                // 在主请求load()失败的时候开始一次新的加载，即下面的 newUrlWhenLoadUrlError 地址
+                val newUrlWhenLoadUrlError = URL_IMAGE_BG_PINK_172KB_1680_580
                 Glide.with(context)
                     .load(URL_404)
-                    .error(Glide.with(context).load(backupUrlWhenLoadUrlError))
+                    .error(Glide.with(context).load(newUrlWhenLoadUrlError)) // 加载RequestBuilder
                     .into(imageView)
             }),
             ButtonModel("url==null,显示fallback图片", View.OnClickListener {
-                // 2.3 load() 方法 url 应该不是 null ，但是如果有可能为 null 的情况，
-                //     你可以通过设置 fallback() 方法来显示 url 为 null 的图片，
+                // 2.3 处理load() url 为 null，
+                //     可以通过设置 fallback() 来显示 url 为 null 情况下的图片。如下面的 R.drawable.ic_fallback
                 val optionsFallback: RequestOptions = RequestOptions()
                     .placeholder(R.drawable.ic_default)
                     .error(R.drawable.ic_error)
                     .fallback(R.drawable.ic_fallback)
-                    .override(com.bumptech.glide.request.target.Target.SIZE_ORIGINAL)
+                    .override(com.bumptech.glide.request.target.Target.SIZE_ORIGINAL) // TODO override？
 
                 val nullUrl: String? = null
                 Glide.with(context).load(nullUrl).apply(optionsFallback).into(imageView)
@@ -148,7 +147,7 @@ class GlideMainActivity : BaseActivity() {
                 //      1. 正在加载 url 的时候，显示图片 ic_default。
                 //      2. 加载成功显示 url 指向的图片。
                 //      3. 加载失败显示 ic_error。
-                //      4. 如果 url 为 null（一定得是 null ），则显示图片 ic_fallback。
+                //      4. 如果 url 为 null（一定得是 null ），则显示图片 ic_fallback
             }),
             // 3, 加载指定大小的图片
             ButtonModel("加载指定大小的图片", View.OnClickListener {
@@ -156,25 +155,24 @@ class GlideMainActivity : BaseActivity() {
                 // 情况一： 如果加载的图片尺寸是 1080*1920 的，但显示的 ImageView 的大小却是 100 * 100的，
                 // 这个时候，不用做任何操作的，因为 Glide 会自动的根据 ImageView 的大小来决定加载图片的大小。
 
-                // 情况二：如果 ImageView 是 100*100 的，但要加载的图片大小为 88*88，那可以通过override()指定加载的尺寸，
-                // 但是这种方式 layout_width、layout_height不能同时制定尺寸，否则不生效：
+                // 情况二：如果 ImageView 是 100*100 的，但要加载的图片大小为 88 * 88，那可以通过override()指定加载的尺寸，
+                // 但是这种方式 layout_width、layout_height不能同时制定尺寸，否则不生效。
                 val options: RequestOptions = RequestOptions()
                     .placeholder(R.drawable.ic_default).error(R.drawable.ic_error)
                     .override(144, 144)
 
                 Glide.with(context).load(URL_IMAGE_DUST_DOG_8KB_144_144)
-                    .apply(options)
-                    .into(imageView)
+                    .apply(options).into(imageView)
 
                 // 注意的是
                 // 虽然设置加载图片的大小，但 placeholder 和 error 的尺寸是不会变的，依旧根据我们的 ImageView 自动计算的。
             }),
             ButtonModel("加载原始图片", View.OnClickListener {
-                // 如果不想让 Glide 帮我们计算并压缩要加载的图片，我就要加载原始图片大小，当然也是可以的，你可以这样写：
+                // 如果不想让 Glide 帮我们计算并压缩要加载的图片，我就要加载原始图片大小，当然也是可以的，可以这样写：
                 val options: RequestOptions = RequestOptions()
                     .placeholder(R.drawable.ic_default).error(R.drawable.ic_error)
                     .override(com.bumptech.glide.request.target.Target.SIZE_ORIGINAL)
-                // TODO: 2020/5/22 Logan  SIZE_ORIGINAL 内存？还是图片尺寸？原理？好像没生效。
+                // TODO: 2020/5/22 Logan SIZE_ORIGINAL 内存？还是图片尺寸？原理？好像没生效。
 
                 Glide.with(context).load(IMAGE_BIG).apply(options).into(imageView)
                 // 不建议这样做，因为比如原始图片大小 1024*1024，而 ImageView 是 128*128，
@@ -184,27 +182,24 @@ class GlideMainActivity : BaseActivity() {
             // 4，加载不同格式：Gif、Bitmap、Drawable、File
             ButtonModel("加载不同格式", View.OnClickListener {
                 // 在 Glide4.0 中有一个 RequestBuilders 的泛型类，用于指定加载资源的格式，可以通过下面四种方法指定。
-                // 默认情况下，如果我们不指定，则是得到一个 RequestBuilders 对象。
-                // 1, asDrawable() 得到 RequestBuilders 对象。
-                // 2, asGif() 得到 RequestBuilders 对象。
-                // 3, asBitmap() 得到 RequestBuilders 对象。
-                // 4, asFile() 得到 RequestBuilders 对象。
+                // 默认情况下，如果我们不指定，则是得到一个 RequestBuilders 对象 (load()函数返回值)。
+                // asDrawable()、asGif()、asBitmap()、asFile() 也能得到 RequestBuilders 对象。
 
                 val options: RequestOptions = RequestOptions()
                     .placeholder(R.drawable.ic_default).error(R.drawable.ic_error)
                     .override(com.bumptech.glide.request.target.Target.SIZE_ORIGINAL)
 
-                // 加载gif
+                // 加载 gif
                 Glide.with(context).asGif().load(URL_GIF_JC_AD_125KB_1680_580).apply(options)
                     .into(imageView)
 
-                // 加载bitmap
+                // 加载 bitmap
                 // Glide.with(context).asBitmap().load(IMAGE_BIG).apply(options).into(imageView)
 
-                // 加载drawable
+                // 加载 drawable
                 // Glide.with(context).asDrawable().load(IMAGE_BIG).apply(options).into(imageView)
 
-                // 加载File（见下面6.3例子）
+                // 加载 File（见下面的 6.3 例子）
                 // Glide.with(context).asFile().load(IMAGE_BIG)
             }),
 
@@ -218,16 +213,16 @@ class GlideMainActivity : BaseActivity() {
                 val highQualityImageUrl = URL_IMAGE_MOUNTAIN_2MB_2048_1367
                 val lowQualityImageUrl = URL_IMAGE_WATCH_172KB_1000_100
 
-                // 先加载并显示 lowQualityImageUrl 图片，等到 highQualityImageUrl 图片加载完成之后，则显示 highQualityImageUrl 图片。
-                Glide.with(context)
-                    .load(highQualityImageUrl)
+                // 先加载显示 thumbnail() 方法中的 lowQualityImageUrl 图片，
+                // 等到 highQualityImageUrl 图片加载完成之后，再显示 highQualityImageUrl。
+                Glide.with(context).load(highQualityImageUrl)
                     .thumbnail(Glide.with(context).load(lowQualityImageUrl))
                     .into(imageView)
             }),
             ButtonModel("缩略图float", View.OnClickListener {
                 // 5.2 参数为 float 方式 TODO 效果不明显?
-                // 直接显示 highQualityImageUrl 图片的一般分辨率的图片，等到 highQualityImageUrl 图片完全加载之后，
-                // 再显示 highQualityImageUrl 指向的完整图片。
+                // 直接显示 highQualityImageUrl 图片的一般分辨率的图片，
+                // 等到它完全加载之后，再显示 highQualityImageUrl 指向的完整图片。
                 Glide.with(context)
                     .load(URL_IMAGE_MOUNTAIN_2MB_2048_1367)
                     .thumbnail(0.1f) // 传入 0 到 1 之间的 float 值
@@ -247,17 +242,17 @@ class GlideMainActivity : BaseActivity() {
                         }
                     })
 
-                //  所有into() 最终调用下面的into()
+                //  所有 into() 最终调用下面的into()
                 //  private <Y extends Target<TranscodeType>> Y into(
                 //      @NonNull Y target,
-                //      @Nullable RequestListener<TranscodeType> targetListener, // TranscodeType 指的是 设置的 asBitmap（）、asDrawable（）等之后设置的类型。
+                //      @Nullable RequestListener<TranscodeType> targetListener, // TranscodeType 指的是设置的 asBitmap（）、asDrawable（）等之后设置的类型。
                 //      BaseRequestOptions<?> options,
                 //      Executor callbackExecutor
                 //   ) { }
 
             }),
             ButtonModel("预加载图片", View.OnClickListener {
-                // 6.2 预加载图片到缓存
+                // 6.2 预加载图片到缓存 preload()
                 // 如果有两个页面A（当前页面） 和 B（跳转页面），在 B 页面中要使用 Glide 显示一个很大的图片，
                 // 那么在 A 页面的时候就可以先把 B 页面中要加载的图片缓存下来，等到 B 页面的时候，就可直接读取显示。
                 Glide.with(context)
@@ -294,7 +289,7 @@ class GlideMainActivity : BaseActivity() {
 
             }),
             ButtonModel("下载图片", View.OnClickListener {
-                // 6.3 下载图片到指定地址
+                // 6.3 下载图片到指定地址 asFile()，submit()
                 Observable.timer(10, TimeUnit.MICROSECONDS)
                     .subscribeOn(Schedulers.io())
                     .map { createBitmapFromNetImage(context) }
@@ -310,13 +305,13 @@ class GlideMainActivity : BaseActivity() {
 
             // 7， 图片变换
             // 在Glide中，Transformations 可以获取资源并修改它，然后返回被修改后的资源。
-            // 通常变换操作是用来完成剪裁或对位图应用过滤器，但它也可以用于转换GIF动画，甚至自定义的资源类型。
+            // 通常变换操作是用来完成 剪裁 或 对位图应用过滤器，但它也可以用于 转换GIF动画，甚至自定义的资源类型。
             // Glide 内置了几种变换，比如 ：
-            //   (1), CenterCrop  圆形  TODO Logan 几种类型区别， 参考，README.MD "2，Glide各种Transformation案例"
+            //   (1), CenterCrop TODO Logan 几种类型区别， 参考，README.MD "2，Glide各种Transformation案例"
             //   (2), FitCenter
             //   (3), CircleCrop 圆形
             ButtonModel("图片变换(单次)", View.OnClickListener {
-                // 7.1 单次变换
+                // 7.1 单次变换 circleCrop()
                 val options = RequestOptions().circleCrop()
                 Glide.with(context).load(IMAGE_SMALL).apply(options).into(imageView)
 
@@ -324,7 +319,7 @@ class GlideMainActivity : BaseActivity() {
 //                Glide.with(context).load(IMAGE_SMALL)
 //                    .apply(RequestOptions.circleCropTransform()).into(imageView)
 
-                // 需要注意，如果下面的写法，是有些问题的。
+                // 需要注意，如果下面的写法，是有问题的。
 //                Glide.with(context).load(IMAGE_SMALL)
 //                    .apply(RequestOptions.centerCropTransform()) // 忽略该效果
 //                    .apply(RequestOptions.circleCropTransform()) // 仅执行该效果
@@ -332,26 +327,32 @@ class GlideMainActivity : BaseActivity() {
                 // 如果想一次加载中变换多次，那么需要使用 MultiTransformation。
             }),
             ButtonModel("图片变换(多次)", View.OnClickListener {
-                // 7.2 多次变换
+                // 7.2 多次变换 MultiTransformation
                 val multiTransform = MultiTransformation<Bitmap>(CenterCrop(), CircleCrop())
                 val options = RequestOptions().transform(multiTransform)
                 Glide.with(context).load(IMAGE_SMALL).apply(options).into(imageView)
             }),
+
             // 8, 禁用磁盘和内存的缓
             ButtonModel("禁用磁盘和内存的缓存图片", View.OnClickListener {
                 val skipMemoryAndDiskCacheOptions = RequestOptions()
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
-                Glide.with(context).load(IMAGE_BIG).apply(skipMemoryAndDiskCacheOptions)
+
+                Glide.with(context).load(IMAGE_BIG)
+                    .apply(skipMemoryAndDiskCacheOptions)
                     .into(imageView)
             }),
+
             // 9, Glide OOM
             ButtonModel("Glide OOM", View.OnClickListener {
                 // 如果设置 ImageView 的 ScaleType 是 fitxy ，Glide 会默认按照图片实际大小加载。
-                // 而scaleType其他模式会按照的 ImageView 的大小。
-                imageView.scaleType = ImageView.ScaleType.FIT_XY // fitxy 容易OOMw
+                // 而scaleType其他模式会按照的 ImageView 的大小显示。
+
+                imageView.scaleType = ImageView.ScaleType.FIT_XY // fitxy 容易OOM
                 Glide.with(context).load(IMAGE_BIG).into(imageView)
 
+                // 解决方案：
                 // 如果非要设置 fitxy，那么使用 centerCrop() 和 fitCenter() 处理
                 // Glide.with(context).load(IMAGE_BIG).centerCrop().into(imageView)
                 // Glide.with(context).load(IMAGE_BIG).fitCenter().into(imageView)
@@ -363,8 +364,7 @@ class GlideMainActivity : BaseActivity() {
     private fun createBitmapFromNetImage(context: Context): Bitmap? {
         // 也可以先把图片下载到硬盘上，得到一个 File文件，这个时候要用到 submit()。
         val target: FutureTarget<File> = Glide.with(context)
-            .asFile()
-            .load(URL_IMAGE_MOUNTAIN_2MB_2048_1367)
+            .asFile().load(URL_IMAGE_MOUNTAIN_2MB_2048_1367)
             .submit()
 
         var bitmap: Bitmap? = null
@@ -387,7 +387,7 @@ class GlideMainActivity : BaseActivity() {
 
 }
 
-fun createButtons(
+fun showButtons(
     context: Context, buttonsContainer: ViewGroup, vararg buttons: ButtonModel
 ) {
     buttons.forEach {
