@@ -8,7 +8,7 @@ import com.bumptech.glide.annotation.GlideExtension
  * author: Logan <br/>
  * since V 1.0 <br/>
  */
-@GlideExtension
-class MyGlideExtension {
-
-}
+//@GlideExtension
+//class MyGlideExtension {
+//
+//}
