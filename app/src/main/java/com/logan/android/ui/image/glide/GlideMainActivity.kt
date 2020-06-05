@@ -445,12 +445,13 @@ class GlideMainActivity : BaseActivity() {
                 // 12.2 通过SimpleTarget获取Bitmap
                 Glide.with(context)
                     .asBitmap() // 指定格式为Bitmap
-                    .load(IMAGE_SMALL)
+                    .load(IMAGE_MIDDLE)
                     .into(object : SimpleTarget<Bitmap>() {
                         override fun onResourceReady(
                             resource: Bitmap, transition: Transition<in Bitmap>?
                         ) {
                             //加载成功，resource为加载到的bitmap
+                            imageView.setImageBitmap(resource)
                         }
                     })
             })
