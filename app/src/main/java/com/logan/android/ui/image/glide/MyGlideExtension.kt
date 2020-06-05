@@ -5,6 +5,8 @@ import com.bumptech.glide.annotation.GlideOption
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.BaseRequestOptions
 import com.bumptech.glide.request.RequestOptions
+import com.logan.android.ui.R
+import com.logan.android.ui.tool.log
 import jp.wasabeef.glide.transformations.BlurTransformation
 
 /**
@@ -21,7 +23,11 @@ class MyGlideExtension private constructor() {
 
         @GlideOption
         fun useTransition(options: RequestOptions): BaseRequestOptions<*> {
+            log("======= MyGlideExtension -> useTransition()")
             options.transform(BlurTransformation(10))
+
+            // 设置默认error 图片，并禁止动画
+            // options.placeholder(R.drawable.ic_default).dontAnimate();
             return options
         }
 

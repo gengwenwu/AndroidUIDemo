@@ -194,7 +194,9 @@ class GlideMainActivity : BaseActivity() {
                     .override(com.bumptech.glide.request.target.Target.SIZE_ORIGINAL)
 
                 // 加载 gif
-                Glide.with(context).asGif().load(URL_GIF_JC_AD_125KB_1680_580).apply(options)
+                Glide.with(context)
+                    .asGif() // 指定格式为gif（如果没有特殊要求，可以不指定，因为glide会自动识别图片格式）
+                    .load(URL_GIF_JC_AD_125KB_1680_580).apply(options)
                     .into(imageView)
 
                 // 加载 bitmap
@@ -289,10 +291,10 @@ class GlideMainActivity : BaseActivity() {
                             return false
                         }
                     })
-                    // 图片预加载
-                    .preload()
-
+                    .preload() // 图片预加载。加载图片的原始尺寸
+                // .preload(720, 1280) // 指定加载图片的宽和高
             }),
+
             ButtonModel("下载图片", View.OnClickListener {
                 // 6.3 下载图片到指定地址 asFile()，submit()
                 Observable.timer(10, TimeUnit.MICROSECONDS)
@@ -481,10 +483,14 @@ class GlideMainActivity : BaseActivity() {
         var bitmap: Bitmap? = null
 
         try {
-            // 也可以先把图片下载到硬盘上，得到一个 File文件，这个时候要用到 submit()。
-            val target: FutureTarget<File> = Glide.with(context)
-                .asFile().load(URL_IMAGE_MOUNTAIN_2MB_2048_1367)
-                .submit()
+            // 也可以先把图片下载到硬盘上，asFile() 得到一个 File文件，这个时候要用到 submit() 下载。
+            // submit()必修在子线程中执行
+            val target: FutureTarget<File> =
+                Glide.with(applicationContext) // 这里不要使用Activity Context，因为Activity销毁了，线程可能未执行完成
+                    .asFile()
+                    .load(URL_IMAGE_MOUNTAIN_2MB_2048_1367)
+                    .submit() // 只会下载原始尺寸图片，并不会加载图片
+            // .submit(720, 1280) // 下载指定大小尺寸图片
 
             val file: File = target.get() // get() 阻塞线程，开始获取网络文件。
             log("图片下载完成，地址:${file.getAbsolutePath()}， 主线程:${isMainThread()}")
