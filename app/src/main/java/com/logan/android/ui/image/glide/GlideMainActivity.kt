@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.annotation.WorkerThread
 import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -459,7 +460,17 @@ class GlideMainActivity : BaseActivity() {
 
             }),
 
-            // 13 3.x版本链式调用
+            // 13, 加载优先级
+            ButtonModel("加载优先级", View.OnClickListener {
+                // 可以对当前加载的图片，调整加载的优先级的。使用 priority()。
+                // Priority 的枚举类型值为：LOW（低）、HIGH（高）、NORMAL（普通）、IMMEDIATE（立即）
+                Glide.with(context)
+                    .load(URL_IMAGE_MOUNTAIN_2MB_2048_1367)
+                    .priority(Priority.IMMEDIATE)
+                    .into(imageView)
+            }),
+
+            // 14, 3.x版本链式调用
             ButtonModel("3.x版本链式调用", View.OnClickListener {
                 // 12.2 通过SimpleTarget获取Bitmap
                 GlideApp.with(context)

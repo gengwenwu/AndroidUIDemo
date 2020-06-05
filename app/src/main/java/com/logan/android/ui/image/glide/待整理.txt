@@ -31,3 +31,6 @@
 3, Glide 和 RecyclerView 结合使用出现卡顿
     https://juejin.im/entry/5ad5555f51882555867fe935
 
+4， with参数优先级
+    Fragment > Activity > Context
+    
