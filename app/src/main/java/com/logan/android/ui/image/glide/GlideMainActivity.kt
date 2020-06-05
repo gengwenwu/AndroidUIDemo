@@ -454,6 +454,22 @@ class GlideMainActivity : BaseActivity() {
                             imageView.setImageBitmap(resource)
                         }
                     })
+            }),
+
+            // 13 3.x版本链式调用
+            ButtonModel("3.x版本链式调用", View.OnClickListener {
+                // 12.2 通过SimpleTarget获取Bitmap
+                GlideApp.with(context)
+                    .load(IMAGE_MIDDLE)
+                    .placeholder(R.drawable.ic_default)
+                    .error(R.drawable.ic_error)
+                    .override(300, 300)
+                    .transition(DrawableTransitionOptions.withCrossFade(600))
+                    .transform(GrayscaleTransformation())
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    // .....
+                    .into(imageView)
             })
 
         )
@@ -461,14 +477,14 @@ class GlideMainActivity : BaseActivity() {
 
     @WorkerThread
     private fun createBitmapFromNetImage(context: Context): Bitmap? {
-        // 也可以先把图片下载到硬盘上，得到一个 File文件，这个时候要用到 submit()。
-        val target: FutureTarget<File> = Glide.with(context)
-            .asFile().load(URL_IMAGE_MOUNTAIN_2MB_2048_1367)
-            .submit()
-
         var bitmap: Bitmap? = null
 
         try {
+            // 也可以先把图片下载到硬盘上，得到一个 File文件，这个时候要用到 submit()。
+            val target: FutureTarget<File> = Glide.with(context)
+                .asFile().load(URL_IMAGE_MOUNTAIN_2MB_2048_1367)
+                .submit()
+
             val file: File = target.get() // get() 阻塞线程，开始获取网络文件。
             log("图片下载完成，地址:${file.getAbsolutePath()}， 主线程:${isMainThread()}")
             val inputStream = FileInputStream(file)
