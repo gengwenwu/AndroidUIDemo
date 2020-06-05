@@ -263,11 +263,12 @@ class GlideMainActivity : BaseActivity() {
                     .load(URL_IMAGE_MOUNTAIN_2MB_2048_1367)
                     // 下载监听
                     .listener(object : RequestListener<Drawable> {
-                        // onResourceReady() 方法和 onLoadFailed() 方法都有一个布尔值的返回值，
+                        // onResourceReady() 和 onLoadFailed() 都有一个布尔值的返回值，
                         //  1， 返回 false 就表示这个事件没有被处理，还会继续向下传递，
-                        //  2， 返回 true 就表示这个事件已经被处理掉了，从而不会再继续向下传递。
+                        //  2， 返回 true 就表示这个事件已经被处理掉了，不会再继续向下传递。
+
                         // 举个简单例子：如果在 RequestListener 的 onResourceReady() 中返回了 true，
-                        // 那么就不会再回调 Target的onResourceReady() 方法了。
+                        // 那么就不会再回调 Target 的 onResourceReady()，imageView也就不会显示加载到的图片了。
                         override fun onLoadFailed( // 加载失败
                             e: GlideException?, model: Any?,
                             target: Target<Drawable>?, isFirstResource: Boolean
@@ -414,6 +415,44 @@ class GlideMainActivity : BaseActivity() {
                     .doOnNext {
                         Glide.get(context).clearDiskCache()
                     }.subscribe()
+            }),
+
+            // 12，获取Bitmap
+            ButtonModel("通过listener()获取Bitmap", View.OnClickListener {
+                // 12.1 通过listener()获取Bitmap
+                Glide.with(context)
+                    .asBitmap() // 指定格式为Bitmap
+                    .load(IMAGE_SMALL)
+                    .listener(object : RequestListener<Bitmap> {
+                        override fun onLoadFailed(
+                            e: GlideException?, model: Any?,
+                            target: Target<Bitmap>?, isFirstResource: Boolean
+                        ): Boolean {
+                            return false
+                        }
+
+                        override fun onResourceReady(
+                            resource: Bitmap?, model: Any?, target: Target<Bitmap>?,
+                            dataSource: DataSource?, isFirstResource: Boolean
+                        ): Boolean {
+                            // 加载成功，resource 为 bitmap
+                            return false
+                        }
+                    })
+                    .into(imageView)
+            }),
+            ButtonModel("通过SimpleTarget获取Bitmap", View.OnClickListener {
+                // 12.2 通过SimpleTarget获取Bitmap
+                Glide.with(context)
+                    .asBitmap() // 指定格式为Bitmap
+                    .load(IMAGE_SMALL)
+                    .into(object : SimpleTarget<Bitmap>() {
+                        override fun onResourceReady(
+                            resource: Bitmap, transition: Transition<in Bitmap>?
+                        ) {
+                            //加载成功，resource为加载到的bitmap
+                        }
+                    })
             })
 
         )
