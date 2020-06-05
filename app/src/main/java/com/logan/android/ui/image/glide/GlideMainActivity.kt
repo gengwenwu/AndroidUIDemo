@@ -341,7 +341,7 @@ class GlideMainActivity : BaseActivity() {
                 //  (1), 圆角变换
                 //val options = RequestOptions().transform(RoundedCornersTransformation(10, 5))
                 //  (2), 加入模糊变换
-                // val options = RequestOptions().transform(BlurTransformation(blurRadius));
+                // val options = RequestOptions().transform(BlurTransformation(blurRadius))
                 //  (3), 加入灰白变换
                 val options = RequestOptions().transform(GrayscaleTransformation())
                 //  等等
@@ -454,6 +454,7 @@ class GlideMainActivity : BaseActivity() {
                             imageView.setImageBitmap(resource)
                         }
                     })
+
             }),
 
             // 13 3.x版本链式调用
