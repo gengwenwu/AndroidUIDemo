@@ -36,6 +36,8 @@ import com.logan.android.ui.tool.log
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import jp.wasabeef.glide.transformations.GrayscaleTransformation
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException
@@ -334,6 +336,17 @@ class GlideMainActivity : BaseActivity() {
                 val multiTransform = MultiTransformation<Bitmap>(CenterCrop(), CircleCrop())
                 val options = RequestOptions().transform(multiTransform)
                 Glide.with(context).load(IMAGE_SMALL).apply(options).into(imageView)
+            }), ButtonModel("wasabeef库的Transformation(单词)", View.OnClickListener {
+                // 7.3 使用封装的库变换
+                //  (1), 圆角变换
+                //val options = RequestOptions().transform(RoundedCornersTransformation(10, 5))
+                //  (2), 加入模糊变换
+                // val options = RequestOptions().transform(BlurTransformation(blurRadius));
+                //  (3), 加入灰白变换
+                val options = RequestOptions().transform(GrayscaleTransformation());
+                //  等等
+
+                Glide.with(context).load(IMAGE_MIDDLE).apply(options).into(imageView)
             }),
 
             // 8, 禁用磁盘和内存的缓
@@ -429,6 +442,7 @@ private fun createButton(
     context: Context, buttonModel: ButtonModel
 ): Button {
     return Button(context).apply {
+        isAllCaps = false
         text = buttonModel.buttonText
 
         layoutParams = FlexboxLayout.LayoutParams(

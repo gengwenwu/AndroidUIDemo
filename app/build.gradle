@@ -52,15 +52,15 @@ dependencies {
 
     // glide
     implementation('com.github.bumptech.glide:glide:4.11.0')
-
     /** glide V4.0 以前版本，链式调用风格 **/
     //  (1), Java 项目写法
     // annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     //  (2), Kotlin 项目写法
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
-
     // glide 和 okHttp 集成
     implementation 'com.github.bumptech.glide:okhttp3-integration:4.3.1'
+    // glide 图片转换库 https://github.com/wasabeef/glide-transformations
+    implementation 'jp.wasabeef:glide-transformations:4.1.0@aar'
 
     /* test */
     testImplementation 'junit:junit:4.12'

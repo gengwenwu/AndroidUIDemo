@@ -27,4 +27,18 @@
           这个时候可以通过自定义Url来应对这种情况，具体方案请参考这里的“高级技巧”小节。
 
 
-3，
+3，封装库多变换
+        同时应用多个变换
+        List<Transformation> list = new ArrayList<>();
+        list.add(new RoundedCornersTransformation(radius, margin));
+        list.add(new BlurTransformation(blurRadius));
+        list.add(new GrayscaleTransformation());
+        MultiTransformation multiTransformation = new MultiTransformation(list);
+        RequestOptions requestOptions = new RequestOptions();
+        //同时应用圆角、模糊、灰白的变换效果
+        requestOptions.transform(multiTransformation);
+        Glide.with(context)
+             .load(url)
+             .apply(requestOptions)
+             .into(imageView);
+
