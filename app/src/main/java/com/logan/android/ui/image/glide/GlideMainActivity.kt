@@ -29,6 +29,7 @@ import com.google.android.flexbox.FlexboxLayout
 import com.logan.android.ui.R
 import com.logan.android.ui.base.BaseActivity
 import com.logan.android.ui.entity.ButtonModel
+import com.logan.android.ui.image.glide.GlideConsts.*
 import com.logan.android.ui.tool.dp2px
 import com.logan.android.ui.tool.isMainThread
 import com.logan.android.ui.tool.log
@@ -53,36 +54,6 @@ import java.util.concurrent.TimeUnit
 class GlideMainActivity : BaseActivity() {
 
     companion object {
-        //
-        val URL_PREFIX =
-            "https://raw.githubusercontent.com/gengwenwu/AndroidUIDemo/master/app/src/main/res/drawable"
-
-        // 错误image地址
-        val URL_404 = "http://tiebapic.baidu.com/09fac7db.jpg"
-
-        // 3MB
-        val URL_IMAGE_DOG_3MB_5295_3355 = "${URL_PREFIX}/res_dog_3mb_5295_3355.jpg"
-
-        // 2MB
-        val URL_IMAGE_MOUNTAIN_2MB_2048_1367 = "${URL_PREFIX}/res_mountain_2mb_2048_1367.jpeg"
-
-        //
-        val URL_IMAGE_SEASCAPE_900KB_2048_1360 = "${URL_PREFIX}/res_seascape_900kb_2048_1360.jpg"
-
-        // 172kb
-        val URL_IMAGE_WATCH_172KB_1000_100 = "${URL_PREFIX}/res_watch_172kb_1000_100.jpg"
-
-        // 172kb
-        val URL_IMAGE_BG_PINK_172KB_1680_580 = "${URL_PREFIX}/res_bg_pink_131kb_1680_580.jpg"
-
-        // 125KB gif
-        val URL_GIF_JC_AD_125KB_1680_580 = "${URL_PREFIX}/res_jc_ad_125kb_1680_580.gif"
-
-        //
-        val URL_IMAGE_MAN_SHOE_75KB_800_800 = "${URL_PREFIX}/res_man_shoe_75kb_800_800.jpg"
-
-        //
-        val URL_IMAGE_DUST_DOG_8KB_144_144 = "${URL_PREFIX}/res_dust_dog_8kb_144_144.jpg"
 
         // 小质量图片
         val IMAGE_SMALL = URL_IMAGE_MAN_SHOE_75KB_800_800
@@ -484,6 +455,11 @@ class GlideMainActivity : BaseActivity() {
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     // .....
                     .into(imageView)
+            }),
+
+            // 15
+            ButtonModel("进入图片列表", View.OnClickListener {
+                startActivity<RecyclerViewCaseActivity>()
             })
 
         )
