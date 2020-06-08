@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.logan.android.ui.R
 import com.logan.android.ui.base.BaseActivity
 import com.logan.android.ui.image.glide.GlideConsts.*
+import kotlinx.android.synthetic.main.activity_glide_recycler.*
 
 /**
  * desc: Glide 和 RecyclerView 结合使用出现卡顿问题。 <br/>
@@ -19,14 +20,11 @@ class RecyclerViewCaseActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_glide_recycler)
 
-        val adapter = AdapterGlideImages(this, getData())
-        findViewById<RecyclerView>(R.id.rv_images).apply {
-            layoutManager =
-                LinearLayoutManager(this@RecyclerViewCaseActivity)
-            this.adapter = adapter
+        rv_images.apply {
+            val context = this@RecyclerViewCaseActivity
+            layoutManager = LinearLayoutManager(context)
+            this.adapter = AdapterGlideImages(context, getData())
         }
-
-        adapter.notifyDataSetChanged()
     }
 
     private fun getData(): MutableList<String> {

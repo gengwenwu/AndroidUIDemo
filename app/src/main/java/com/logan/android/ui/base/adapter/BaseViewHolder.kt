@@ -32,6 +32,7 @@ open class BaseViewHolder(itemView: View) :
 
 
     init {
+        // 类ViewHolder未初始化完成，这个时候使用this很有危险性
         mContainerHolderView.setOnClickListener(this)
         mContainerHolderView.setOnLongClickListener(this)
     }

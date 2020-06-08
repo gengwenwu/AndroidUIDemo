@@ -1,6 +1,7 @@
 package com.logan.android.ui.image.glide
 
 import android.content.Context
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -10,6 +11,7 @@ import com.logan.android.ui.base.adapter.AdapterRecyclerBase
 import com.logan.android.ui.base.adapter.BaseViewHolder
 import com.logan.android.ui.tool.log
 import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.activity_glide_main.*
 
 /**
  * desc: glide 图片列表 <br/>
@@ -23,7 +25,7 @@ class AdapterGlideImages(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            getLayoutInflater().inflate(
+            LayoutInflater.from(getContext()).inflate(
                 R.layout.item_glide_recycler, parent, false
             )
         )
@@ -35,17 +37,13 @@ class AdapterGlideImages(
             return
         }
 
-        // TODO: 2020/6/8 Logan  
+        //holder.iv_image
+        // TODO: 2020/6/8 Logan
         log("========> url: ${getList()[position]}")
-        Glide.with(getContext()).load(getList()[position]).into(holder.ivImage)
+        Glide.with(getContext()).load(getList()[position]).into(holder.iv_image)
     }
 
     inner class ViewHolder(override val containerView: View) : BaseViewHolder(containerView),
-        LayoutContainer {
-        // todo
-        //  1，2020/6/8 Logan KTX
-        //  2，LayoutContainer？
-        val ivImage: ImageView = containerView.findViewById(R.id.iv_image)
-    }
+        LayoutContainer
 
 }

@@ -34,6 +34,16 @@ android {
 
 }
 
+/** KTX 实验性API， flavor / LayoutContainer support / Parcelable **/
+androidExtensions {
+    experimental = true
+}
+
+
+repositories {
+    google()
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
