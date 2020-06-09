@@ -6,3 +6,4 @@
 
 [3，Glide各种Transformation案例](https://github.com/wasabeef/glide-transformations)
 
+[4,郭霖的专栏("Android图片加载框架最全解析"系列教程)](https://blog.csdn.net/guolin_blog/article/details/53759439)
