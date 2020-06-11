@@ -30,6 +30,7 @@ import com.logan.android.ui.R
 import com.logan.android.ui.base.BaseActivity
 import com.logan.android.ui.entity.ButtonModel
 import com.logan.android.ui.image.glide.GlideConsts.*
+import com.logan.android.ui.image.glide.ext.MyGlideUrl
 import com.logan.android.ui.tool.dp2px
 import com.logan.android.ui.tool.isMainThread
 import com.logan.android.ui.tool.log
@@ -457,7 +458,18 @@ class GlideMainActivity : BaseActivity() {
                     .into(imageView)
             }),
 
-            // 15
+            // 15 重写GlideUrl
+            ButtonModel("过滤url地址的token", View.OnClickListener {
+                val optionsError: RequestOptions = RequestOptions()
+                    .error(R.drawable.ic_error)
+
+                Glide.with(context)
+                    .load(MyGlideUrl("${URL_IMAGE_BG_PINK_172KB_1680_580}?token=${System.currentTimeMillis()}"))
+                    .apply(optionsError)
+                    .into(imageView)
+            }),
+
+            // 16
             ButtonModel("进入图片列表", View.OnClickListener {
                 startActivity<RecyclerViewCaseActivity>()
             })
