@@ -15,6 +15,7 @@ import java.net.URL
 class MyGlideUrl(val url: String) : GlideUrl(url) {
 
     override fun getCacheKey(): String {
+        // TODO 该函数多次调用，可以优化。¬
         return url.replace(findTokenParam(), "")
     }
 
