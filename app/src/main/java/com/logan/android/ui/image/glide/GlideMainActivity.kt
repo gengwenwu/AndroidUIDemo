@@ -12,6 +12,7 @@ import android.widget.ImageView
 import androidx.annotation.WorkerThread
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
+import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -31,6 +32,7 @@ import com.logan.android.ui.base.BaseActivity
 import com.logan.android.ui.entity.ButtonModel
 import com.logan.android.ui.image.glide.GlideConsts.*
 import com.logan.android.ui.image.glide.ext.MyGlideUrl
+import com.logan.android.ui.image.glide.target.DownloadImageTarget
 import com.logan.android.ui.tool.dp2px
 import com.logan.android.ui.tool.isMainThread
 import com.logan.android.ui.tool.log
@@ -236,6 +238,7 @@ class GlideMainActivity : BaseActivity() {
                 // 那么在 A 页面的时候就可以先把 B 页面中要加载的图片缓存下来，等到 B 页面的时候，就可直接读取显示。
                 Glide.with(context)
                     .load(URL_IMAGE_MOUNTAIN_2MB_2048_1367)
+                    .diskCacheStrategy(DiskCacheStrategy.DATA)
                     // 下载监听
                     .listener(object : RequestListener<Drawable> {
                         // onResourceReady() 和 onLoadFailed() 都有一个布尔值的返回值，
@@ -259,7 +262,9 @@ class GlideMainActivity : BaseActivity() {
                             showMsg("加载成功，可从缓存中既取既得")
 
                             // 不写下个页面了，就在这里取吧
-                            Glide.with(context).load(URL_IMAGE_MOUNTAIN_2MB_2048_1367)
+                            Glide.with(context)
+                                .load(URL_IMAGE_MOUNTAIN_2MB_2048_1367)
+                                .diskCacheStrategy(DiskCacheStrategy.DATA)
                                 .into(imageView);
                             return false
                         }
@@ -281,6 +286,11 @@ class GlideMainActivity : BaseActivity() {
                             imageView.setImageBitmap(it)
                         }
                     }
+            }), ButtonModel("自定义Target", View.OnClickListener {
+                // 6.4 下载图片到指定地址 asFile()，submit()
+                Glide.with(context)
+                    .load(URL_IMAGE_MOUNTAIN_2MB_2048_1367)
+                    .downloadOnly(DownloadImageTarget())
             }),
 
             // 7， 图片变换
@@ -487,6 +497,7 @@ class GlideMainActivity : BaseActivity() {
             val target: FutureTarget<File> =
                 Glide.with(applicationContext) // 这里不要使用Activity Context，因为Activity销毁了，线程可能未执行完成
                     .asFile()
+                    .diskCacheStrategy(DiskCacheStrategy.DATA)
                     .load(URL_IMAGE_MOUNTAIN_2MB_2048_1367)
                     .submit() // 只会下载原始尺寸图片，并不会加载图片
             // .submit(720, 1280) // 下载指定大小尺寸图片
