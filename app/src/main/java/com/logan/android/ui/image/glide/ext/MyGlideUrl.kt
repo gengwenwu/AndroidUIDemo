@@ -1,10 +1,7 @@
 package com.logan.android.ui.image.glide.ext
 
-import android.os.Parcel
-import android.os.Parcelable
 import com.bumptech.glide.load.model.GlideUrl
 import com.logan.android.ui.tool.log
-import java.net.URL
 
 /**
  * desc: 重写 GlideUrl <br/>
@@ -14,9 +11,16 @@ import java.net.URL
  */
 class MyGlideUrl(val url: String) : GlideUrl(url) {
 
+    private val urlNoTokenParameter: String
+
+
+    init {
+        urlNoTokenParameter = url.replace(findTokenParam(), "")
+    }
+
     override fun getCacheKey(): String {
-        // TODO 该函数多次调用，可以优化。¬
-        return url.replace(findTokenParam(), "")
+        // getCacheKey() 会多次调用，因此urlNoTokenParameter在init()初始化
+        return urlNoTokenParameter
     }
 
     // 解决token一直变化，同一张图片总是请求网络的情况
