@@ -27,6 +27,7 @@
         <!-- Glide -->
         <activity android:name=".image.glide.GlideMainActivity" />
         <activity android:name=".image.glide.RecyclerViewCaseActivity" />
+        <activity android:name=".image.glide.transform.TransformActivity" />
 
         <!-- 约束布局 -->
         <activity android:name=".layout.constraint.ConstraintMainActivity" />

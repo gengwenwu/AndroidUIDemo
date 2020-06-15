@@ -6,13 +6,10 @@ import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import androidx.annotation.WorkerThread
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
-import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -33,7 +30,7 @@ import com.logan.android.ui.entity.ButtonModel
 import com.logan.android.ui.image.glide.GlideConsts.*
 import com.logan.android.ui.image.glide.ext.MyGlideUrl
 import com.logan.android.ui.image.glide.target.DownloadImageTarget
-import com.logan.android.ui.tool.dp2px
+import com.logan.android.ui.image.glide.transform.TransformActivity
 import com.logan.android.ui.tool.isMainThread
 import com.logan.android.ui.tool.log
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -222,15 +219,6 @@ class GlideMainActivity : BaseActivity() {
                             imageView.setImageDrawable(resource)
                         }
                     })
-
-                //  所有 into() 最终调用下面的into()
-                //  private <Y extends Target<TranscodeType>> Y into(
-                //      @NonNull Y target,
-                //      @Nullable RequestListener<TranscodeType> targetListener, // TranscodeType 指的是设置的 asBitmap（）、asDrawable（）等之后设置的类型。
-                //      BaseRequestOptions<?> options,
-                //      Executor callbackExecutor
-                //   ) { }
-
             }),
             ButtonModel("预加载图片", View.OnClickListener {
                 // 6.2 预加载图片到缓存 preload()
@@ -482,6 +470,11 @@ class GlideMainActivity : BaseActivity() {
             // 16
             ButtonModel("进入图片列表", View.OnClickListener {
                 startActivity<RecyclerViewCaseActivity>()
+            }),
+
+            // 17
+            ButtonModel("Transform", View.OnClickListener {
+                startActivity<TransformActivity>()
             })
 
         )
@@ -518,28 +511,3 @@ class GlideMainActivity : BaseActivity() {
     }
 
 }
-
-fun showButtons(
-    context: Context, buttonsContainer: ViewGroup, vararg buttons: ButtonModel
-) {
-    buttons.forEach {
-        buttonsContainer.addView(createButton(context, it))
-    }
-}
-
-private fun createButton(
-    context: Context, buttonModel: ButtonModel
-): Button {
-    return Button(context).apply {
-        isAllCaps = false
-        text = buttonModel.buttonText
-
-        layoutParams = FlexboxLayout.LayoutParams(
-            FlexboxLayout.LayoutParams.WRAP_CONTENT,
-            FlexboxLayout.LayoutParams.WRAP_CONTENT
-        ).also { it.marginStart = dp2px(context, 5f) }
-
-        setOnClickListener(buttonModel.onClickListener)
-    }
-}
-
