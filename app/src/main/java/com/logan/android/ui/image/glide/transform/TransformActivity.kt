@@ -18,11 +18,21 @@ import kotlinx.android.synthetic.main.activity_glide_transform.*
 
 /**
  * desc: glide Transform 案例 <br/>
- *    Glide图片变换的框架流程：
- *         首先：获取到原始的图片；
- *         然后：对图片进行变换，再将变换完成后的图片返回给Glide；
- *         最终：由Glide将图片显示出来。
-
+ *
+ *  在Glide中，Transformations 可以获取资源并修改它，然后返回被修改后的资源。
+ *  通常变换操作是用来完成 剪裁、模糊、圆角等操作，也可以用于转换GIF动画，甚至自定义的资源类型。
+ *
+ *  变换的框架流程：
+ *         首先：获取到原始的资源（如：图片）；
+ *         然后：对资源进行变换，再将变换完成后的资源返回给Glide；
+ *         最终：将资源交给由Glide处理（如：图片显示）。
+ *
+ * Glide 内置了多种变换，比如 ：
+ *   (1), FitCenter // 效果: 会将图片按照原始的长宽比充满全屏。 如果 ImageView 使用默认的ScaleType，Glide默认就是fitCenter。
+ *   (2), CircleCrop // 效果：原图的中心区域向外进行裁剪后的图片。
+ *   (3), CenterCrop TODO Logan 几种类型区别， 参考，README.MD "2，Glide各种Transformation案例"
+ *   (4)， 等等
+ *
  * time: 2020/6/15 3:16 PM <br/>
  * author: Logan <br/>
  * since V 1.0 <br/>
@@ -71,13 +81,8 @@ class TransformActivity : BaseActivity() {
                     .into(imageView)
             }),
 
-            // 4，Glide 默认提供 centerCrop() 和 fitCenter() 两种转换
+            // 4，Glide 默认提供的 centerCrop() 转换
             ButtonModel("centerCrop()", View.OnClickListener {
-//                Glide.with(context).load(URL_IMAGE_SEASCAPE_900KB_2048_1360)
-//                    // 如果 ImageView 使用默认的ScaleType，Glide默认就是fitCenter，此时可以不写 .fitCenter() 代码
-//                    .fitCenter() // FitCenter的效果是: 会将图片按照原始的长宽比充满全屏。
-//                    .into(imageView)
-
                 Glide.with(context).load(URL_IMAGE_SEASCAPE_900KB_2048_1360)
                     .centerCrop() // centerCrop效果：原图的中心区域向外进行裁剪后的图片。
                     .into(imageView)
