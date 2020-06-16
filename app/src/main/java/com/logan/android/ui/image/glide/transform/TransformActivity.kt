@@ -33,7 +33,7 @@ import kotlinx.android.synthetic.main.activity_glide_transform.*
  * Glide 内置了多种变换，比如 ：
  *   (1), FitCenter // 效果: 会将图片按照原始的长宽比充满全屏。 如果 ImageView 使用默认的ScaleType，Glide默认就是fitCenter。
  *   (2), CircleCrop // 效果：原图的中心区域向外进行裁剪后的图片。
- *   (3), CenterCrop 参考，README.MD "2，Glide各种Transformation案例"
+ *   (3), CenterCrop 参考，README.MD "Glide各种Transformation案例"
  *   (4)， 等等
  *
  * time: 2020/6/15 3:16 PM <br/>
