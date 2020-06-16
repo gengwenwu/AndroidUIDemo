@@ -68,7 +68,7 @@ class MyAppGlideModule : AppGlideModule() {
      **/
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
         log("=== MyAppGlideModule -> registerComponents() ")
-        // 替换 网络请求组件
+        // 替换 Glide的网络请求组件，默认是：HttpURLConnection
         registry.replace(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory())
 
         // Glide中默认组件, 有很多组件可以替换，但一般没这种需求。
