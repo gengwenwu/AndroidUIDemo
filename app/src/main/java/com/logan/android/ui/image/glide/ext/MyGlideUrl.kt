@@ -1,7 +1,6 @@
 package com.logan.android.ui.image.glide.ext
 
 import com.bumptech.glide.load.model.GlideUrl
-import com.logan.android.ui.tool.log
 
 /**
  * desc: 重写 GlideUrl <br/>

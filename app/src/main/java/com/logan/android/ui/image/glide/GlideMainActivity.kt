@@ -11,11 +11,8 @@ import androidx.annotation.WorkerThread
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.FutureTarget
 import com.bumptech.glide.request.RequestListener
@@ -27,7 +24,8 @@ import com.google.android.flexbox.FlexboxLayout
 import com.logan.android.ui.R
 import com.logan.android.ui.base.BaseActivity
 import com.logan.android.ui.entity.ButtonModel
-import com.logan.android.ui.image.glide.GlideConsts.*
+import com.logan.android.ui.image.glide.consts.GlideConsts.*
+import com.logan.android.ui.image.glide.ext.GlideApp
 import com.logan.android.ui.image.glide.ext.MyGlideUrl
 import com.logan.android.ui.image.glide.target.DownloadImageTarget
 import com.logan.android.ui.image.glide.transform.TransformActivity
@@ -36,9 +34,7 @@ import com.logan.android.ui.tool.log
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import jp.wasabeef.glide.transformations.BlurTransformation
 import jp.wasabeef.glide.transformations.GrayscaleTransformation
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException

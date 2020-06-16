@@ -1,11 +1,9 @@
-package com.logan.android.ui.image.glide
+package com.logan.android.ui.image.glide.ext
 
 import com.bumptech.glide.annotation.GlideExtension
 import com.bumptech.glide.annotation.GlideOption
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.BaseRequestOptions
 import com.bumptech.glide.request.RequestOptions
-import com.logan.android.ui.R
 import com.logan.android.ui.tool.log
 import jp.wasabeef.glide.transformations.BlurTransformation
 

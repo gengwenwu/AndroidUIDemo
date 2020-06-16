@@ -1,4 +1,4 @@
-package com.logan.android.ui.image.glide;
+package com.logan.android.ui.image.glide.consts;
 
 /**
  * desc: Glide产量类 <br/>

@@ -12,7 +12,7 @@ import com.bumptech.glide.request.target.Target.SIZE_ORIGINAL
 import com.logan.android.ui.R
 import com.logan.android.ui.base.BaseActivity
 import com.logan.android.ui.entity.ButtonModel
-import com.logan.android.ui.image.glide.GlideConsts.URL_IMAGE_SEASCAPE_900KB_2048_1360
+import com.logan.android.ui.image.glide.consts.GlideConsts.URL_IMAGE_SEASCAPE_900KB_2048_1360
 import com.logan.android.ui.image.glide.transform.custom.CircleCrop
 import jp.wasabeef.glide.transformations.BlurTransformation
 import jp.wasabeef.glide.transformations.GrayscaleTransformation

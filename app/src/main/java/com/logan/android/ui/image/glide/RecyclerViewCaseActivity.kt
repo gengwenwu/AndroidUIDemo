@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.logan.android.ui.R
 import com.logan.android.ui.base.BaseActivity
-import com.logan.android.ui.image.glide.GlideConsts.*
+import com.logan.android.ui.image.glide.consts.GlideConsts.*
 import kotlinx.android.synthetic.main.activity_glide_recycler.*
 
 /**

@@ -1,4 +1,4 @@
-package com.logan.android.ui.image.glide
+package com.logan.android.ui.image.glide.ext
 
 import android.content.Context
 import com.bumptech.glide.Glide
