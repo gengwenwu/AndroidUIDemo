@@ -281,58 +281,6 @@ class GlideMainActivity : BaseActivity() {
                     .downloadOnly(DownloadImageTarget())
             }),
 
-            // 7， 图片变换
-            ButtonModel("图片变换(单次)", View.OnClickListener {
-                // 7.1 单次变换 circleCrop()
-                val options = RequestOptions().circleCrop()
-                Glide.with(context).load(IMAGE_SMALL).apply(options).into(imageView)
-
-                // 与上一句效果一样
-//                Glide.with(context).load(IMAGE_SMALL)
-//                    .apply(RequestOptions.circleCropTransform()).into(imageView)
-
-                // 需要注意，如果下面的写法，是有问题的。
-//                Glide.with(context).load(IMAGE_SMALL)
-//                    .apply(RequestOptions.centerCropTransform()) // 忽略该效果
-//                    .apply(RequestOptions.circleCropTransform()) // 仅执行该效果
-//                    .into(imageView)
-                // 如果想一次加载中变换多次，那么需要使用 MultiTransformation。
-            }),
-            ButtonModel("图片变换(多次)", View.OnClickListener {
-                // 7.2 多次变换 MultiTransformation
-                val multiTransform = MultiTransformation<Bitmap>(CenterCrop(), CircleCrop())
-                val options = RequestOptions().transform(multiTransform)
-                Glide.with(context).load(IMAGE_SMALL).apply(options).into(imageView)
-            }), ButtonModel("wasabeef库的Transformation(单次)", View.OnClickListener {
-                // 7.3 使用封装的库单次变换
-                //  (1), 圆角变换
-                //val options = RequestOptions().transform(RoundedCornersTransformation(10, 5))
-                //  (2), 加入模糊变换
-                // val options = RequestOptions().transform(BlurTransformation(blurRadius))
-                //  (3), 加入灰白变换
-                val options = RequestOptions().transform(GrayscaleTransformation())
-                //  等等
-
-                Glide.with(context).load(IMAGE_MIDDLE).apply(options).into(imageView)
-            }),
-            ButtonModel("wasabeef库的Transformation(多次)", View.OnClickListener {
-                // 7.4  使用封装的库多次变换
-                val transList = listOf(
-                    RoundedCornersTransformation(10, 5),
-                    BlurTransformation(5),
-                    GrayscaleTransformation()
-                )
-                val options = RequestOptions().transform(MultiTransformation(transList))
-
-                Glide.with(context).load(IMAGE_MIDDLE).apply(options).into(imageView)
-            }),
-            ButtonModel("禁用图片变换", View.OnClickListener {
-                // 7.5  禁用图片变换: dontTransform()，下面的GrayscaleTransformation无效
-                val options = RequestOptions().transform(GrayscaleTransformation()).dontTransform()
-
-                Glide.with(context).load(IMAGE_MIDDLE).apply(options).into(imageView)
-            }),
-
             // 8, 禁用磁盘和内存的缓
             ButtonModel("禁用磁盘和内存的缓存图片", View.OnClickListener {
                 val skipMemoryAndDiskCacheOptions = RequestOptions()

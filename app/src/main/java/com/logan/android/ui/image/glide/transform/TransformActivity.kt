@@ -1,12 +1,12 @@
 package com.logan.android.ui.image.glide.transform
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.MultiTransformation
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target.SIZE_ORIGINAL
 import com.logan.android.ui.R
@@ -14,6 +14,9 @@ import com.logan.android.ui.base.BaseActivity
 import com.logan.android.ui.entity.ButtonModel
 import com.logan.android.ui.image.glide.GlideConsts.URL_IMAGE_SEASCAPE_900KB_2048_1360
 import com.logan.android.ui.image.glide.transform.custom.CircleCrop
+import jp.wasabeef.glide.transformations.BlurTransformation
+import jp.wasabeef.glide.transformations.GrayscaleTransformation
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 import kotlinx.android.synthetic.main.activity_glide_transform.*
 
 /**
@@ -30,7 +33,7 @@ import kotlinx.android.synthetic.main.activity_glide_transform.*
  * Glide 内置了多种变换，比如 ：
  *   (1), FitCenter // 效果: 会将图片按照原始的长宽比充满全屏。 如果 ImageView 使用默认的ScaleType，Glide默认就是fitCenter。
  *   (2), CircleCrop // 效果：原图的中心区域向外进行裁剪后的图片。
- *   (3), CenterCrop TODO Logan 几种类型区别， 参考，README.MD "2，Glide各种Transformation案例"
+ *   (3), CenterCrop 参考，README.MD "2，Glide各种Transformation案例"
  *   (4)， 等等
  *
  * time: 2020/6/15 3:16 PM <br/>
@@ -101,6 +104,64 @@ class TransformActivity : BaseActivity() {
                 Glide.with(context).load(URL_IMAGE_SEASCAPE_900KB_2048_1360)
                     .apply(RequestOptions().transform(MultiTransformation(CircleCrop())))
                     //.override(700, 700)
+                    .into(imageView)
+            }),
+
+            // 7， 单次变换 CenterCrop()
+            ButtonModel("单次变换", View.OnClickListener {
+                val options = RequestOptions().centerCrop()
+                Glide.with(context).load(URL_IMAGE_SEASCAPE_900KB_2048_1360).apply(options)
+                    .into(imageView)
+
+                // 与上一句效果一样
+//                Glide.with(context).load(IMAGE_SMALL)
+//                    .apply(RequestOptions.centerCropTransform()).into(imageView)
+
+                // 需要注意，如果下面的写法，是有问题的。
+//                Glide.with(context).load(IMAGE_SMALL)
+//                    .apply(RequestOptions.circleCropTransform()) // 忽略该效果
+//                    .apply(RequestOptions.centerCropTransform()) // 仅执行该效果
+//                    .into(imageView)
+                // 如果想一次加载中变换多次，那么需要使用 MultiTransformation。
+            }),
+
+            // 8,多次变换 MultiTransformation
+            ButtonModel("多次变换", View.OnClickListener {
+                val multiTransform = MultiTransformation(
+                    CenterCrop(),
+                    com.bumptech.glide.load.resource.bitmap.CircleCrop()
+                )
+
+                val options = RequestOptions().transform(multiTransform)
+                Glide.with(context).load(URL_IMAGE_SEASCAPE_900KB_2048_1360).apply(options)
+                    .into(imageView)
+            }),
+
+            // 9 使用wasabeef库的转换
+            ButtonModel("wasabeef库 - 单次转换", View.OnClickListener {
+
+                //  (1), 圆角变换
+                //val options = RequestOptions().transform(RoundedCornersTransformation(10, 5))
+                //  (2), 加入模糊变换
+                // val options = RequestOptions().transform(BlurTransformation(blurRadius))
+                //  (3), 加入灰白变换
+                val options = RequestOptions().transform(GrayscaleTransformation())
+                //  等等
+
+                Glide.with(context).load(URL_IMAGE_SEASCAPE_900KB_2048_1360).apply(options)
+                    .into(imageView)
+            }),
+
+            // 10，使用封装的库多次变换
+            ButtonModel("wasabeef库 - 多次转换", View.OnClickListener {
+                val transList = listOf(
+                    BlurTransformation(5),
+                    GrayscaleTransformation(),
+                    RoundedCornersTransformation(150, 200)
+                )
+                val options = RequestOptions().transform(MultiTransformation(transList))
+
+                Glide.with(context).load(URL_IMAGE_SEASCAPE_900KB_2048_1360).apply(options)
                     .into(imageView)
             })
 
