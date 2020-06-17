@@ -6,10 +6,12 @@ import com.bumptech.glide.GlideBuilder
 import com.bumptech.glide.Registry
 import com.bumptech.glide.annotation.GlideModule
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
-import com.bumptech.glide.load.engine.cache.ExternalPreferredCacheDiskCacheFactory
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.module.AppGlideModule
+import com.logan.android.ui.image.glide.ext.okhttp.OkHttpGlideUrlLoader
+import com.logan.android.ui.image.glide.ext.okhttp.ProgressInterceptor
 import com.logan.android.ui.tool.log
+import okhttp3.OkHttpClient
 import java.io.InputStream
 
 /**
@@ -68,8 +70,20 @@ class MyAppGlideModule : AppGlideModule() {
      **/
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
         log("=== MyAppGlideModule -> registerComponents() ")
+
         // 替换 Glide的网络请求组件，默认是：HttpURLConnection
-        registry.replace(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory())
+        // registry.replace(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory())
+
+        with(OkHttpClient.Builder()) {
+            // 添加监听拦截器
+            addInterceptor(ProgressInterceptor())
+            // 替换 OkHttp
+            registry.replace(
+                GlideUrl::class.java,
+                InputStream::class.java,
+                OkHttpGlideUrlLoader.Factory(build())
+            )
+        }
 
         // Glide中默认组件, 有很多组件可以替换，但一般没这种需求。
 //        registry.register(File::class.java, ParcelFileDescriptor::class.java, FileDescriptorFileLoader.Factory())

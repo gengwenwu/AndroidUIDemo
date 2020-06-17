@@ -1,5 +1,6 @@
 package com.logan.android.ui.image.glide
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -27,6 +28,8 @@ import com.logan.android.ui.entity.ButtonModel
 import com.logan.android.ui.image.glide.consts.GlideConsts.*
 import com.logan.android.ui.image.glide.ext.GlideApp
 import com.logan.android.ui.image.glide.ext.MyGlideUrl
+import com.logan.android.ui.image.glide.ext.okhttp.ProgressInterceptor
+import com.logan.android.ui.image.glide.ext.okhttp.ProgressListener
 import com.logan.android.ui.image.glide.target.DownloadImageTarget
 import com.logan.android.ui.image.glide.transform.TransformActivity
 import com.logan.android.ui.tool.isMainThread
@@ -405,12 +408,51 @@ class GlideMainActivity : BaseActivity() {
                     .into(imageView)
             }),
 
-            // 16
+            // 16，下载进度条
+            ButtonModel("下载进度条", View.OnClickListener {
+                // dialog
+                val progressDialog = ProgressDialog(this).apply {
+                    setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
+                    setMessage("加载中")
+                }
+
+                // 设置监听
+                val imageUrl = URL_IMAGE_SEASCAPE_900KB_2048_1360
+                ProgressInterceptor.addListener(imageUrl, object : ProgressListener {
+                    override fun onProgress(progress: Int) {
+                        progressDialog.progress = progress
+                    }
+                })
+
+                Glide.with(context)
+                    .load(imageUrl)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(object : SimpleTarget<Drawable>() {
+
+                        override fun onLoadStarted(placeholder: Drawable?) {
+                            // 显示dialog
+                            progressDialog.show()
+                        }
+
+                        override fun onResourceReady(
+                            resource: Drawable, transition: Transition<in Drawable>?
+                        ) {
+                            imageView.setImageDrawable(resource)
+                            // 关闭Dialog
+                            progressDialog.dismiss()
+                            // 删除监听
+                            ProgressInterceptor.removeListener(imageUrl)
+                        }
+                    })
+            }),
+
+            // 17
             ButtonModel("进入图片列表", View.OnClickListener {
                 startActivity<RecyclerViewCaseActivity>()
             }),
 
-            // 17
+            // 18
             ButtonModel("Transform", View.OnClickListener {
                 startActivity<TransformActivity>()
             })
