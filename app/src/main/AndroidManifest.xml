@@ -26,6 +26,7 @@
 
         <!-- Glide -->
         <activity android:name=".image.glide.GlideMainActivity" />
+        <activity android:name=".image.glide.GlideSimpleActivity" />
         <activity android:name=".image.glide.RecyclerViewCaseActivity" />
         <activity android:name=".image.glide.transform.TransformActivity" />
 
