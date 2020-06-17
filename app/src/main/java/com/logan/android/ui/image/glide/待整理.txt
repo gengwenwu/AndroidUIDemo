@@ -17,8 +17,8 @@
 
     磁盘缓存策略有以下几种：
         DiskCacheStrategy.NONE： 表示不缓存任何内容。
-        DiskCacheStrategy.DATA： 表示只缓存原始图片。
-        DiskCacheStrategy.RESOURCE： 表示只缓存转换过后的图片。
+        DiskCacheStrategy.DATA： 表示只缓存原始图片(对应Glide 3中的 DiskCacheStrategy.SOURCE)。
+        DiskCacheStrategy.RESOURCE： 表示只缓存转换过后的图片(对应Glide 3中的 DiskCacheStrategy.RESULT)。
         DiskCacheStrategy.ALL ： 表示既缓存原始图片，也缓存转换过后的图片。
         DiskCacheStrategy.AUTOMATIC： 表示让Glide根据图片资源智能地选择使用哪一种缓存策略（默认选项）。
 
@@ -70,9 +70,12 @@
 
 4，3.X用法 (使用 Generated API)
 
-5，常见问题以及解决方案
+5，定制Api
+
+6，Glide节省内存用法
+
+7，常见问题以及解决方案
 	RecyclerView卡顿
 	同一地址的图片显示
 	OOM
 
-6，Glide节省内存用法

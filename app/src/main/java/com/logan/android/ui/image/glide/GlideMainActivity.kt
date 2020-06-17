@@ -350,7 +350,7 @@ class GlideMainActivity : BaseActivity() {
                             dataSource: DataSource?, isFirstResource: Boolean
                         ): Boolean {
                             // 加载成功，resource 为 bitmap
-                            return false
+                            return false // return true，下面的 into(imageView) 不会将图片显示出来
                         }
                     })
                     .into(imageView)
@@ -465,8 +465,11 @@ class GlideMainActivity : BaseActivity() {
         var bitmap: Bitmap? = null
 
         try {
-            // 也可以先把图片下载到硬盘上，asFile() 得到一个 File文件，这个时候要用到 submit() 下载。
-            // submit()必修在子线程中执行
+            // submit()方法是对应的 Glide3 中的 downloadOnly()，这个方法只会下载资源，而不会对资源进行加载。
+            // 当资源下载完成之后，我们可以得到资源的存储路径，以便后续进行操作。
+            // submit() 和 preload() 方法类似，它也是可以替换 into() 方法。
+
+            // asFile() 得到一个 File文件，这个时候要用到 submit() 下载。 submit()必修在子线程中执行
             val target: FutureTarget<File> =
                 Glide.with(applicationContext) // 这里不要使用Activity Context，因为Activity销毁了，线程可能未执行完成
                     .asFile()
