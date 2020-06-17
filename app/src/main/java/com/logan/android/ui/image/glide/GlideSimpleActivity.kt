@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.google.android.flexbox.FlexboxLayout
@@ -14,6 +16,9 @@ import com.logan.android.ui.entity.ButtonModel
 import com.logan.android.ui.image.glide.GlideMainActivity.Companion.IMAGE_BIG
 import com.logan.android.ui.image.glide.GlideMainActivity.Companion.IMAGE_SMALL
 import com.logan.android.ui.image.glide.consts.GlideConsts.*
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 
 /**
  * desc: glide 入门案例 <br/>
@@ -22,7 +27,7 @@ import com.logan.android.ui.image.glide.consts.GlideConsts.*
  * since V 1.0 <br/>
  */
 class GlideSimpleActivity : BaseActivity() {
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_glide_main)
@@ -173,7 +178,41 @@ class GlideSimpleActivity : BaseActivity() {
                     .load(URL_IMAGE_MOUNTAIN_2MB_2048_1367)
                     .thumbnail(0.1f) // 传入 0 到 1 之间的 float 值
                     .into(imageView)
+            }),
+
+            // ======== 6, 禁用磁盘和内存的缓
+            ButtonModel("禁用磁盘和内存的缓存图片", View.OnClickListener {
+                val skipMemoryAndDiskCacheOptions = RequestOptions()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+
+                Glide.with(context).load(IMAGE_BIG)
+                    .apply(skipMemoryAndDiskCacheOptions)
+                    .into(imageView)
+            }),
+
+            // ======== 7，清理缓存和内存
+            ButtonModel("清理缓存和内存", View.OnClickListener {
+                // 清空内存缓存，要求在主线程中执行
+                Glide.get(context).clearMemory()
+
+                // 清空磁盘缓存，要求在后台线程中执行
+                Observable.timer(10, TimeUnit.MILLISECONDS).observeOn(Schedulers.io())
+                    .doOnNext {
+                        Glide.get(context).clearDiskCache()
+                    }.subscribe()
+            }),
+
+            // ======== 8, 加载优先级
+            ButtonModel("加载优先级", View.OnClickListener {
+                // 可以对当前加载的图片，调整加载的优先级的。使用 priority()。
+                // Priority 的枚举类型值为：LOW（低）、HIGH（高）、NORMAL（普通）、IMMEDIATE（立即）
+                Glide.with(context)
+                    .load(URL_IMAGE_MOUNTAIN_2MB_2048_1367)
+                    .priority(Priority.IMMEDIATE)
+                    .into(imageView)
             })
+
         )
     }
 

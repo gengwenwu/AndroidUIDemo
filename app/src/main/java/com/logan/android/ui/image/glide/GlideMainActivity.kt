@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
@@ -24,10 +23,7 @@ import com.logan.android.ui.image.glide.consts.GlideConsts.*
 import com.logan.android.ui.image.glide.ext.GlideApp
 import com.logan.android.ui.image.glide.ext.MyGlideUrl
 import com.logan.android.ui.image.glide.transform.TransformActivity
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import jp.wasabeef.glide.transformations.GrayscaleTransformation
-import java.util.concurrent.TimeUnit
 
 /**
  * desc: glide 案例主页面 <br/>
@@ -63,25 +59,24 @@ class GlideMainActivity : BaseActivity() {
 
     fun collectButtons(context: Context, imageView: ImageView): Array<ButtonModel> {
         return arrayOf(
-            //
+            // 1
             ButtonModel("Glide入门用法", View.OnClickListener {
                 startActivity<GlideSimpleActivity>()
             }),
 
-            //
+            // 2
             ButtonModel("Target用法", View.OnClickListener {
                 startActivity<GlideTargetActivity>()
             }),
 
-            // 8, 禁用磁盘和内存的缓
-            ButtonModel("禁用磁盘和内存的缓存图片", View.OnClickListener {
-                val skipMemoryAndDiskCacheOptions = RequestOptions()
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
+            // 3
+            ButtonModel("进入图片列表", View.OnClickListener {
+                startActivity<RecyclerViewCaseActivity>()
+            }),
 
-                Glide.with(context).load(IMAGE_BIG)
-                    .apply(skipMemoryAndDiskCacheOptions)
-                    .into(imageView)
+            // 4
+            ButtonModel("Transform", View.OnClickListener {
+                startActivity<TransformActivity>()
             }),
 
             // 9, Glide OOM
@@ -110,18 +105,6 @@ class GlideMainActivity : BaseActivity() {
                     // .transition(BitmapTransitionOptions.withCrossFade(800))// 适用于Bitmap，过渡动画持续800ms
                     // .transition(GenericTransitionOptions.with(animationId)) // 适用于自定义过渡效果，传入animationId
                     .into(imageView)
-            }),
-
-            // 11，清理缓存和内存
-            ButtonModel("清理缓存和内存", View.OnClickListener {
-                // 清空内存缓存，要求在主线程中执行
-                Glide.get(context).clearMemory()
-
-                // 清空磁盘缓存，要求在后台线程中执行
-                Observable.timer(10, TimeUnit.MILLISECONDS).observeOn(Schedulers.io())
-                    .doOnNext {
-                        Glide.get(context).clearDiskCache()
-                    }.subscribe()
             }),
 
             // 12，获取Bitmap
@@ -164,16 +147,6 @@ class GlideMainActivity : BaseActivity() {
 
             }),
 
-            // 13, 加载优先级
-            ButtonModel("加载优先级", View.OnClickListener {
-                // 可以对当前加载的图片，调整加载的优先级的。使用 priority()。
-                // Priority 的枚举类型值为：LOW（低）、HIGH（高）、NORMAL（普通）、IMMEDIATE（立即）
-                Glide.with(context)
-                    .load(URL_IMAGE_MOUNTAIN_2MB_2048_1367)
-                    .priority(Priority.IMMEDIATE)
-                    .into(imageView)
-            }),
-
             // 14, 3.x版本链式调用
             ButtonModel("3.x版本链式调用", View.OnClickListener {
                 // 12.2 通过SimpleTarget获取Bitmap
@@ -199,16 +172,6 @@ class GlideMainActivity : BaseActivity() {
                     .load(MyGlideUrl("${URL_IMAGE_BG_PINK_172KB_1680_580}?token=${System.currentTimeMillis()}"))
                     .apply(optionsError)
                     .into(imageView)
-            }),
-
-            // 17
-            ButtonModel("进入图片列表", View.OnClickListener {
-                startActivity<RecyclerViewCaseActivity>()
-            }),
-
-            // 18
-            ButtonModel("Transform", View.OnClickListener {
-                startActivity<TransformActivity>()
             })
 
         )
