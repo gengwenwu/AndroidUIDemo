@@ -93,20 +93,6 @@ class GlideMainActivity : BaseActivity() {
                 // Glide.with(context).load(IMAGE_BIG).fitCenter().into(imageView)
             }),
 
-            // 10，配置过渡动画
-            ButtonModel("过渡动画", View.OnClickListener {
-                val skipMemoryAndDiskCacheOptions = RequestOptions()
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-
-                Glide.with(context)
-                    .load(URL_IMAGE_WATCH_172KB_1000_100).apply(skipMemoryAndDiskCacheOptions)
-                    .transition(DrawableTransitionOptions.withCrossFade(800)) // 适用于Drawable，过渡动画持续800ms
-                    // .transition(BitmapTransitionOptions.withCrossFade(800))// 适用于Bitmap，过渡动画持续800ms
-                    // .transition(GenericTransitionOptions.with(animationId)) // 适用于自定义过渡效果，传入animationId
-                    .into(imageView)
-            }),
-
             // 12，获取Bitmap
             ButtonModel("通过listener()获取Bitmap", View.OnClickListener {
                 // 12.1 通过listener()获取Bitmap
@@ -146,6 +132,7 @@ class GlideMainActivity : BaseActivity() {
                     })
 
             }),
+
 
             // 14, 3.x版本链式调用
             ButtonModel("3.x版本链式调用", View.OnClickListener {

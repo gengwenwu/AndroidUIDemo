@@ -7,6 +7,7 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.google.android.flexbox.FlexboxLayout
@@ -203,7 +204,21 @@ class GlideSimpleActivity : BaseActivity() {
                     }.subscribe()
             }),
 
-            // ======== 8, 加载优先级
+            // ======== 8，配置过渡动画
+            ButtonModel("过渡动画", View.OnClickListener {
+                val skipMemoryAndDiskCacheOptions = RequestOptions()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+
+                Glide.with(context)
+                    .load(URL_IMAGE_WATCH_172KB_1000_100).apply(skipMemoryAndDiskCacheOptions)
+                    .transition(DrawableTransitionOptions.withCrossFade(800)) // 适用于Drawable，过渡动画持续800ms
+                    // .transition(BitmapTransitionOptions.withCrossFade(800))// 适用于Bitmap，过渡动画持续800ms
+                    // .transition(GenericTransitionOptions.with(animationId)) // 适用于自定义过渡效果，传入animationId
+                    .into(imageView)
+            }),
+
+            // ======== 9, 加载优先级
             ButtonModel("加载优先级", View.OnClickListener {
                 // 可以对当前加载的图片，调整加载的优先级的。使用 priority()。
                 // Priority 的枚举类型值为：LOW（低）、HIGH（高）、NORMAL（普通）、IMMEDIATE（立即）
