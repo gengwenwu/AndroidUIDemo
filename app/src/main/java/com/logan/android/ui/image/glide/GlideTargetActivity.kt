@@ -56,7 +56,7 @@ class GlideTargetActivity : BaseActivity() {
         showButtons(this, viewContainer, *buttonsModels)
     }
 
-    fun collectButtons(context: Context, imageView: ImageView): Array<ButtonModel> {
+    private fun collectButtons(context: Context, imageView: ImageView): Array<ButtonModel> {
         return arrayOf(
 
             // 1, 重载 into()

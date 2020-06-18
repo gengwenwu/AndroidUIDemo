@@ -39,4 +39,14 @@ public interface GlideConsts {
     //
     String URL_IMAGE_DUST_DOG_8KB_144_144 = URL_PREFIX + "/res_dust_dog_8kb_144_144.jpg";
 
+
+    // 小质量图片
+    String IMAGE_SMALL = URL_IMAGE_MAN_SHOE_75KB_800_800;
+
+    // 中等质量图片
+    String IMAGE_MIDDLE = URL_IMAGE_SEASCAPE_900KB_2048_1360;
+
+    // 大质量图片
+    String IMAGE_BIG = URL_IMAGE_DOG_3MB_5295_3355;
+
 }

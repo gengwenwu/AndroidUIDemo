@@ -14,8 +14,6 @@ import com.google.android.flexbox.FlexboxLayout
 import com.logan.android.ui.R
 import com.logan.android.ui.base.BaseActivity
 import com.logan.android.ui.entity.ButtonModel
-import com.logan.android.ui.image.glide.GlideMainActivity.Companion.IMAGE_BIG
-import com.logan.android.ui.image.glide.GlideMainActivity.Companion.IMAGE_SMALL
 import com.logan.android.ui.image.glide.consts.GlideConsts.*
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -40,7 +38,7 @@ class GlideSimpleActivity : BaseActivity() {
         showButtons(this, viewContainer, *buttonsModels)
     }
 
-    fun collectButtons(context: Context, imageView: ImageView): Array<ButtonModel> {
+    private fun collectButtons(context: Context, imageView: ImageView): Array<ButtonModel> {
         return arrayOf(
 
             // ======== 1，最简单用法

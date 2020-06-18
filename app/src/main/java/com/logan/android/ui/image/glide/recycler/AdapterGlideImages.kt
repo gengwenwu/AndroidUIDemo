@@ -1,4 +1,4 @@
-package com.logan.android.ui.image.glide
+package com.logan.android.ui.image.glide.recycler
 
 import android.content.Context
 import android.view.LayoutInflater

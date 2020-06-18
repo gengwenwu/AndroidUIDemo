@@ -1,4 +1,4 @@
-package com.logan.android.ui.image.glide
+package com.logan.android.ui.image.glide.recycler
 
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,7 +28,11 @@ class RecyclerViewCaseActivity : BaseActivity() {
         rv_images.apply {
             val context = this@RecyclerViewCaseActivity
             layoutManager = LinearLayoutManager(context)
-            this.adapter = AdapterGlideImages(context, getImageUrls())
+            this.adapter =
+                AdapterGlideImages(
+                    context,
+                    getImageUrls()
+                )
 
             // 关键代码1：添加滑动监听
             addOnScrollListener(onScrollListener)

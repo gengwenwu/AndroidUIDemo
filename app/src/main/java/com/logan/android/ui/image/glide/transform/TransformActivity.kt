@@ -55,7 +55,7 @@ class TransformActivity : BaseActivity() {
         showButtons(this, fl_view_container, *buttonsModels)
     }
 
-    fun collectButtons(context: Context, imageView: ImageView): Array<ButtonModel> {
+    private fun collectButtons(context: Context, imageView: ImageView): Array<ButtonModel> {
         return arrayOf(
             // 1，imageView 宽、高 都是 wrap_content，默认Glide会设置成 FitCenter 转换 (将图片按照原始的长宽比充满全屏)
             ButtonModel("默认转换FitCenter", View.OnClickListener {

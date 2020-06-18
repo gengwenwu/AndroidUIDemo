@@ -14,6 +14,7 @@ class MyGlideUrl(val url: String) : GlideUrl(url) {
 
 
     init {
+        // 过滤token
         urlNoTokenParameter = url.replace(findTokenParam(), "")
     }
 
