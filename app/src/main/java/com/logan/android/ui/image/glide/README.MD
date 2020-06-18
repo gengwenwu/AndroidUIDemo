@@ -21,3 +21,12 @@
 [从源码角度深入理解Glide4（上）- 有一张很全的请求流程图](https://juejin.im/post/5c519ff86fb9a049e2326c98)
 
 [从源码角度深入理解Glide4（下）- 有流程图](https://juejin.im/post/5c6a3a386fb9a049f9131e95)
+
+
+![入门用法](images/入门用法.png)  
+
+![入门用法](images/Target用法.png)  
+
+![入门用法](images/transform案例.png)  
+
+![入门用法](images/其它特殊案例.png)  
