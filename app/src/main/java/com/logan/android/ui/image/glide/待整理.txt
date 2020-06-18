@@ -44,7 +44,102 @@
     5，Glide 自定义模块
     6，实现带进度的Glide图片加载功能
 
-Glide节省内存用法？
-封装？
+    7，Glide节省内存用法？
+    8，封装？
 
+
+============== 阅读源码笔记，4.x版本
+1, Glide.with(context) 返回 RequestManager
+	context 是 Application
+	context 是 Activity、FragmentActivity、Context，则会添加隐藏的Fragment，监听生命周期
+
+2, load() 返回 RequestBuilder
+
+3, into() 返回 ViewTarget<T> // T 可以是 Bitmap、Drawable
+	(1), ViewTarget
+	(2), 创建Request
+	(3)，将 Request 设置到 ViewTarget
+	(4), requestManager.track(target, request)
+			requestTracker.runRequest(request)
+				request.begin() //以SingleRequest为例
+					onSizeReady()
+						DecodeJob.run()
+							runWrapped()
+								runGenerators()
+									currentGenerator.startNext()
+										 startNextLoad() -> loadData.fetcher.loadData()
+
+======
+EngineKey是Glide中的缓存Key
+	// EngineKey重写了equals()、hashCode() 确保对象统一
+
+默认情况下，Glide自动就是开启内存缓存。
+Glide内存缓存也使用的LruCache算法。除了LruCache算法之外，它还结合了一种弱引用的机制，共同完成了内存缓存功能。
+
+
+// 初始化各种缓存策略
+Glide.with(context)
+	getRetriever() -> Glide.get(context)
+		checkAndInitializeGlide() -> initializeGlide()
+			initializeGlide() -> initializeGlide()
+				builder.build(applicationContext)
+
+// 从内存中读取
+into()
+	requestManager.track(target, request)
+			requestTracker.runRequest(request)
+				request.begin() //以SingleRequest为例
+					onSizeReady() -> engine.load()
+						loadFromMemory()
+							loadFromActiveResources() // activeResources(ActiveResources)，弱引用
+							loadFromCache() // LruResourceCache，LruCache算法
+
+
+// 存放图片到内存
+	requestManager.track(target, request)
+			requestTracker.runRequest(request)
+				request.begin() //以SingleRequest为例
+					onSizeReady()
+						DecodeJob -> run()
+							runWrapped()
+								decodeFromRetrievedData()
+									notifyEncodeAndRelease()
+										notifyComplete()
+											onResourceReady()
+												notifyCallbacksOfResult()
+													onEngineJobComplete() ->  activeResources.activate(key, resource);
+
+    EngineResource
+        acquire()
+        release() // put 到 LruResourceCache中
+
+硬盘缓存
+	Glide默认硬盘缓存是DiskCacheStrategy.AUTOMATIC。
+	硬盘缓存的实现也是使用的LruCache算法，Glide使用的自己编写的DiskLruCache工具类
+
+	关键代码：DecodeJob.runWrapped()
+		首先，从ResourceCacheGenerator取图片(根据ResourceCacheKey)；
+		如果没有，然后，从DataCacheGenerator取图片(根据originalKey)；
+		如果没有，最后，在SourceGenerator处理。请求网络、保存图片等都在这里。
+
+
+		原始图片的缓存Key用的是originalKey
+
+	// 三者的区别？
+		// 转换过的图片
+		ResourceCacheGenerator
+		// 原始的图片
+		DataCacheGenerator
+		// 写入磁盘
+		SourceGenerator
+
+
+======
+into()设置图片
+	into() -> requestManager.track(target, request);
+		requestTracker.runRequest(request);
+	 		request.begin();
+	 			onResourceReady(resource, DataSource.MEMORY_CACHE);
+	 				onResourceReady((Resource<R>) resource, (R) received, dataSource);
+	 					target.onResourceReady(result, animation);
 
