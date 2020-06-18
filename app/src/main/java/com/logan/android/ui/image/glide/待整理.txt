@@ -1,15 +1,15 @@
-1，最简单用法：
+1，Glide重要用法：
     Glide.with(context).load(url).into(imageView)
 
     with()
-    方法的参数可以是Activity、Fragment等。将用于图片加载的生命周期，比如传入的是activity，那么在activity销毁时将对相关图片资源进行回收。
+        方法的参数可以是Activity、Fragment等。将用于图片加载的生命周期，比如传入的是activity，那么在activity销毁时将对相关图片资源进行回收。
+        with参数优先级：Fragment > Activity > Context
 
     load()
-    方法的参数可以为String、Uri、File、资源ID等。
+        方法的参数可以为String、Uri、File、资源ID等。
 
     into()
-    方法的参数可以是ImageView，Target、图片的宽高。
-
+        方法的参数可以是ImageView，Target、图片的宽高。
 
 2，缓存策略
     requestOptions.skipMemoryCache(true) //不加入内存缓存，默认会加入
@@ -27,55 +27,24 @@
           这个时候可以通过自定义Url来应对这种情况，具体方案请参考这里的“高级技巧”小节。
 
 
-4， with参数优先级
-    Fragment > Activity > Context
+======== 文章思路整理整理
+可以参考郭霖glide系列，他那个是3.x，从4.x版本写起
 
+一，基础篇(入门用法)
+    1，常用用法
+    2，Target
+    3，Transform
+    4，特例、解决方案
 
-5， Bitmap 比你想的更费内存 | 吊打 OOM
-    https://mp.weixin.qq.com/s?__biz=MzIxNjc0ODExMA==&mid=2247484679&idx=1&sn=d738f5ec092c8490484b66cb1ab80eab&chksm=97851c26a0f29530c2359cec1bbe74d93b90e4a1ba8df751dd6469734c8e58280fb265442d0c&scene=21#wechat_redirect
+二，进阶偏
+    1，Glide执行流程
+    2，Glide到缓存机制
+    3，Glide的回调与监听 [submit()，preload(), submit()，downloadOnly()]
+    4，Glide的Transform
+    5，Glide 自定义模块
+    6，实现带进度的Glide图片加载功能
 
-6， Glide 4.x版本，TrimMemory 和 LowMemory 如何配置？
-    onTrimMemroy()
-        https://mp.weixin.qq.com/s?__biz=MzIxNjc0ODExMA==&mid=2247484311&idx=1&sn=1fe0416bed4137dd45c6e9c153bb14f4&chksm=97851ab6a0f293a0cde28ff6d1091b2232e1758e9845a05549d01c62f412def742985d642630&scene=21#wechat_redirect
+Glide节省内存用法？
+封装？
 
-7, Glide 这样用，更省内存！！！
-    https://juejin.im/post/59cf0f9e6fb9a00a4b0c73d4
-
-    (1)，配置 TrimMemory 和 LowMemory
-    	推荐的配置：
-    	(1)，在 lowMemory 的时候，调用 Glide.cleanMemroy() 清理掉所有的内存缓存。
-    	(2)，在 App 被置换到后台的时候，调用 Glide.cleanMemroy() 清理掉所有的内存缓存。
-    	(3)，在其它情况的 onTrimMemroy() 回调中，直接调用 Glide.trimMemory() 方法来交给 Glide 处理内存情况。
-
-    (2)，配置 AppGlideModule
-    (3)，避免使用圆角的ImageView
-    (4)，根据内存情况，裁剪图片
-         override()
-
-
-======== 目录整理思路
-1，简单用法
-	占位符
-	加载指定大小图片
-	加载不通格式、指定格式asBitmap()...
-	缩略图的使用
-	优先级
-	监听
-
-2，缓存
-	预加载
-	缓存到硬盘
-
-3，图片变换
-
-4，3.X用法 (使用 Generated API)
-
-5，定制Api
-
-6，Glide节省内存用法
-
-7，常见问题以及解决方案
-	RecyclerView卡顿
-	同一地址的图片显示
-	OOM
 
