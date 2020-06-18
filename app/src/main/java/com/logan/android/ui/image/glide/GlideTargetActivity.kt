@@ -47,7 +47,7 @@ class GlideTargetActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_glide_main)
+        setContentView(R.layout.activity_glide_common)
 
         val imageView = findViewById<ImageView>(R.id.iv_image)
         val buttonsModels = collectButtons(this, imageView)

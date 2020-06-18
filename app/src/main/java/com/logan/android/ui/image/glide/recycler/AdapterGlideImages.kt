@@ -11,7 +11,7 @@ import com.logan.android.ui.R
 import com.logan.android.ui.base.adapter.AdapterRecyclerBase
 import com.logan.android.ui.base.adapter.BaseViewHolder
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.activity_glide_main.*
+import kotlinx.android.synthetic.main.activity_glide_common.*
 
 /**
  * desc: glide 图片列表 <br/>
