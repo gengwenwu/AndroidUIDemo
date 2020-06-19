@@ -60,8 +60,18 @@ class MyApplication : Application() {
      **/
     override fun onTrimMemory(level: Int) {
         super.onTrimMemory(level)
-        // 1，清除图片缓存
+        // 1，清除图片缓存 (Activity、Fragment 都要加)
+        when (level) {
+            //
+            TRIM_MEMORY_BACKGROUND ->
+                Glide.get(this).clearMemory()
+            //
+            TRIM_MEMORY_MODERATE, TRIM_MEMORY_COMPLETE ->
+                Glide.get(this).trimMemory(level)
+        }
+
         // 2，多余的 Activity，只保留 Root Activity
+        // do something
     }
 
     /**
@@ -76,6 +86,7 @@ class MyApplication : Application() {
     private val componentCallbacks2 = object : ComponentCallbacks2 {
         override fun onLowMemory() {
             // do something¬¬
+
         }
 
         override fun onConfigurationChanged(newConfig: Configuration) {
