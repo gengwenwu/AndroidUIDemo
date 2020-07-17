@@ -26,6 +26,9 @@
             </intent-filter>
         </activity>
 
+        <!-- Recyclerview -->
+        <activity android:name=".layout.recyclerview.RecyclerviewMainActivity" />
+
         <!-- Glide -->
         <activity android:name=".image.glide.GlideMainActivity" />
         <activity android:name=".image.glide.GlideSimpleActivity" />

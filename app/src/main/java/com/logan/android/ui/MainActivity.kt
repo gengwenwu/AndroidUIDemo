@@ -5,6 +5,7 @@ import android.widget.Button
 import com.logan.android.ui.base.BaseActivity
 import com.logan.android.ui.image.glide.GlideMainActivity
 import com.logan.android.ui.layout.constraint.ConstraintMainActivity
+import com.logan.android.ui.layout.recyclerview.RecyclerviewMainActivity
 
 class MainActivity : BaseActivity() {
 
@@ -21,6 +22,12 @@ class MainActivity : BaseActivity() {
         findViewById<Button>(R.id.btn_glide).setOnClickListener {
             startActivity<GlideMainActivity>()
         }
+
+        // Recyclerview
+        findViewById<Button>(R.id.btn_recyclerview).setOnClickListener {
+            startActivity<RecyclerviewMainActivity>()
+        }
+
     }
 
 }

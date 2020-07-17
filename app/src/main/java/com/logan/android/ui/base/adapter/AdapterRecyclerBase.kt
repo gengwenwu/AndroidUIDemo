@@ -87,7 +87,7 @@ abstract class AdapterRecyclerBase<VH : ViewHolder?, T>(
         }
     }
 
-    fun setOnItemLongClickLitener(onItemLongClickListener: OnRecyclerItemLongClickListener?) {
+    fun setOnItemLongClickListener(onItemLongClickListener: OnRecyclerItemLongClickListener?) {
         if (onItemLongClickListener != null) {
             mOnRecyclerItemLongClickListener = onItemLongClickListener
         }

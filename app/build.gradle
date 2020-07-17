@@ -64,8 +64,11 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.3.0'
     // 约束布局
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+
     // recyclerview
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    // recyclerview 分割线
+    implementation 'com.yqritc:recyclerview-flexibledivider:1.4.0'
 
     // android flexbox
     implementation 'com.google.android:flexbox:1.0.0'
