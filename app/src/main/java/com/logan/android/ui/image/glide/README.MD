@@ -22,6 +22,9 @@
 
 [从源码角度深入理解Glide4（下）- 有流程图](https://juejin.im/post/5c6a3a386fb9a049f9131e95)
 
+[Glide 原理建议的流程图(易懂)](https://juejin.im/post/5f0ec887e51d45349917c614)
+
+
 
 ![入门用法](images/入门用法.png)  
 
@@ -29,4 +32,4 @@
 
 ![入门用法](images/transform案例.png)  
 
-![入门用法](images/其它特殊案例.png)  
+![入门用法](images/其它特殊案例.png)
